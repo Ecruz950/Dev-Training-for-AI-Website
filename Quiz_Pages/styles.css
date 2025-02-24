@@ -14,3 +14,26 @@ body {
     object-position: top;
     padding-left: 10px;
 }
+
+.container {
+    padding-left: 5px;
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding-right: 20px;
+}
+
+.button {
+    display: inline-block;
+    background-color: #A0A0A0;
+    color: black;
+    text-align: center;
+    padding: 5px;
+    font-weight: bold;
+    width: 80px;
+    border-radius: 5px;
+}
