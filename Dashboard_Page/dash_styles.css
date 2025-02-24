@@ -87,6 +87,7 @@ p {
     font-size: 18px;
     font-family: Inter;
     font-weight: 700;
+    transition-duration: 0.5s;
 }
 
 .main-menu i {
@@ -94,8 +95,8 @@ p {
 }
 
 .main-menu button:hover {
+    transform: scale(1.05);
     background: #B3B3B3;
-    transition-duration: 0.5s;
 }
 
 .main-menu button:focus {
@@ -140,10 +141,15 @@ p {
     margin: 0 15px;
 }
 
-.enrolled-modules {
-    /* display: flex;
-    gap: 10px; */
-    height: 415px;
+.enrolled-modules-container {
+    display: flex;
+    gap: 2%;
+}
+
+.module-info-card {
+    box-sizing: border-box;
+    width: 500px;
+    /* text-align: center; */
 }
 
 .module-section h3 {
@@ -152,8 +158,42 @@ p {
     font-family: Inter;
     font-weight: 700;
     width: max-content;
-    height: max-content;
     margin-bottom: 0;
+}
+
+.module-info-card img {
+    width: 450px;
+    height: 220px;
+    border-radius: 10px;
+    border: 1px solid #1E1E1E;
+    object-fit: cover;
+    margin: 5px 0;
+    transition-duration: 0.5s;
+}
+
+.module-info-card img:hover {
+    transform: scale(1.05);
+}
+
+.module-info-card h4 {
+    box-sizing: border-box;
+    color: #1E1E1E;
+    font-size: 20px;
+    font-family: Inter;
+    font-weight: 700;
+    margin: 15px 0 10px 0;
+}
+
+.module-info-card p {
+    color: #1E1E1E;
+    font-size: 16px;
+    font-family: Inter;
+    font-weight: 400;
+}
+
+.complete-modules-container {
+    display: flex;
+    gap: 2%;
 }
 
 .linebreak-module {
@@ -161,44 +201,4 @@ p {
     height: 1px;
     width: auto;
     margin-top: 5px;
-}
-
-/* .module-info {
-    box-sizing: border-box;
-    width: auto;
-    max-height: max-content;
-} */
-
-.module-info img {
-    width: 550px;
-    height: 50%;
-    border-radius: 10px;
-    border: 1px solid #1E1E1E;
-    object-fit: cover;
-    object-position: center;
-}
-
-.module-info h4 {
-    color: #1E1E1E;
-    font-size: 22px;
-    font-family: Inter;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-.module-info p {
-    color: #1E1E1E;
-    font-size: 16px;
-    font-family: Inter;
-    font-weight: 400;
-}
-
-.module-grid {
-    display: flex;
-    gap: 20px;
-    height: 415px;
-}
-
-.complete-modules {
-    height: auto;
 }
