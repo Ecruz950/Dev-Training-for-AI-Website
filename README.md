@@ -16,7 +16,8 @@
 
 - Move website to the server (Done at the end when website is finished)
 
-- Login/Registration functionality
+- Login page & Registration Page
+    - Login/Registration functionality
 
 ## What we are storing in the database
 - Username & Password
