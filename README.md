@@ -14,6 +14,11 @@
 
 - Hamburger Menu on the top left corner of the navbar that slides the left side bar menu in and out when clicked
 
+- Move website to the server (Done at the end when website is finished)
+
+- Login/Registration functionality
+
 ## What we are storing in the database
 - Username & Password
 - Quiz results
+- Module status 
