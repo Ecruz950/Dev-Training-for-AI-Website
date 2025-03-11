@@ -4,7 +4,7 @@
 - Implement Quiz results functionality (Assigned: Edgar)
     - If user gets a chooses a response to a question is incorrect, it will notify the user by displaying a feedback text next to the text, explaining why the answer is incorrect
         - each incorrect multiple choice response needs its own feedback response as to why its incorrect
-    - The user must have all the questions correct in order to be able to proceed to the next page
+    - The user must have all the questions correct in order to be able to proceed to the next page (Can scrap the fail page since feedback will be on quiz pages)
 
 - Module status functionality (Assigned: N/a)
     - when a user passes the module (completing the quiz), it should update the module status to "complete"
