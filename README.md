@@ -3,11 +3,12 @@
 ## Tasks to do:
 - Implement Quiz results functionality (Assigned: Edgar)
     - If user gets a chooses a response to a question is incorrect, it will notify the user by displaying a feedback text next to the text, explaining why the answer is incorrect
+        - each incorrect multiple choice response needs its own feedback response as to why its incorrect
     - The user must have all the questions correct in order to be able to proceed to the next page
-        - Once the user proceeds to the next page and passes the module, the module should be removed from the "Enrolled Modules" section on the modules dashboard to the "Completed Modules" section
-            - Status indicator of the module should also update to "Complete"
 
 - Module status functionality (Assigned: N/a)
+    - when a user passes the module (completing the quiz), it should update the module status to "complete"
+    - If the user begins a module and does not complete it (i.e., they return to the dashboard after starting the module), it should update the module status to "incomplete"
 
 - Implement a "back" button that lets user traverse to the previous page (E.g., Quiz --> Video page --> Module overview page) (Assigned: Giselle)
 
