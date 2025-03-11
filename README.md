@@ -20,6 +20,8 @@
 - Login page & Registration Page (Assigned: Alec)
     - Login/Registration functionality
 
+- Make sure website is responsive & secure
+
 
 ## What we are storing in the database
 - Username & Password
