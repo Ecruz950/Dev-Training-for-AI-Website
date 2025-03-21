@@ -13,77 +13,133 @@
         <h1>Effective & Ethical AI Tooling: A Developer’s Guide</h1>
     </section>
     <div class="container">
+        <div class="button-container">
+            <a href="../modules/m1videopage.html" class="button">← Back</a>
+        </div>
         <h2 class="underline">Quiz</h2>
-        <form>
-            <div class="question">
+        <form class="quiz-form">
+
+            <!-- Question 1 -->
+            <div class="question-1">
                 <p><strong>1. What are LLMs? </strong></p>
-                <label><input type="radio" name="q1"> Long Language Models</label><br>
-                <label><input type="radio" name="q1"> Large Language Models</label><br>
-                <label><input type="radio" name="q1"> Long Language Mappings </label><br>
-                <label><input type="radio" name="q1"> None of the above </label><br>
+                <label><input type="radio" name="q1" value="incorrect" onclick="checkAnswer(name,`answer-feedback1`)"> Long Language Models</label><br>
+                <label><input type="radio" name="q1" value="correct"onclick="checkAnswer(name,`answer-feedback1`)"> Large Language Models</label><br>
+                <label><input type="radio" name="q1" value="incorrect" onclick="checkAnswer(name,`answer-feedback1`)"> Long Language Mappings </label><br>
+                <label><input type="radio" name="q1" value="incorrect" onclick="checkAnswer(name,`answer-feedback1`)"> None of the above </label><br>
             </div>
-            <div class="question">
+            <!-- Q1 Result message area -->
+            <div id="answer-feedback1" class="hide"></div>
+
+            <!-- Question 2 -->
+            <div class="question-2">
                 <p><strong>2. T/F: LLMs can distinguish facts from fiction.</strong></p>
-                <label><input type="radio" name="q2"> True </label><br>
-                <label><input type="radio" name="q2"> False </label><br>
+                <label><input type="radio" name="q2" value="incorrect" onclick="checkAnswer(name,`answer-feedback2`)"> True </label><br>
+                <label><input type="radio" name="q2" value="correct" onclick="checkAnswer(name,`answer-feedback2`)"> False </label><br>
             </div>
-            <div class="question">
+            <!-- Q2 Result message area -->
+            <div id="answer-feedback2" class="hide"></div>
+
+            <!-- Question 3 -->
+            <div class="question-3">
                 <p><strong>3. How are the capabilities of a neural network restricted?</strong></p>
-                <label><input type="radio" name="q3"> There are no restrictions. </label><br>
-                <label><input type="radio" name="q3"> The quality of the training data. </label><br>
-                <label><input type="radio" name="q3"> The amount of training data. </label><br>
-                <label><input type="radio" name="q3"> The quality of the training data and amount of training data. </label><br>
+                <label><input type="radio" name="q3" value="incorrect" onclick="checkAnswer(name,`answer-feedback3`)"> There are no restrictions. </label><br>
+                <label><input type="radio" name="q3" value="incorrect" onclick="checkAnswer(name,`answer-feedback3`)"> The quality of the training data. </label><br>
+                <label><input type="radio" name="q3" value="incorrect" onclick="checkAnswer(name,`answer-feedback3`)"> The amount of training data. </label><br>
+                <label><input type="radio" name="q3" value="correct" onclick="checkAnswer(name,`answer-feedback3`)"> The quality of the training data and amount of training data.
+                </label><br>
             </div>
-            <div class="question">
+            <!-- Q3 Result message area -->
+            <div id="answer-feedback3" class="hide"></div>
+            
+            <!-- Question 4 -->
+            <div class="question-4">
                 <p><strong>4. T/F: LLMs can generate code with security vulnerabilities. </strong></p>
-                <label><input type="radio" name="q4"> True </label><br>
-                <label><input type="radio" name="q4"> False </label><br>
+                <label><input type="radio" name="q4" value="correct" onclick="checkAnswer(name,`answer-feedback4`)"> True </label><br>
+                <label><input type="radio" name="q4" value="incorrect" onclick="checkAnswer(name,`answer-feedback4`)"> False </label><br>
             </div>
-            <div class="question">
+            <!-- Q4 Result message area -->
+            <div id="answer-feedback4" class="hide"></div>
+
+            <!-- Question 5 -->
+            <div class="question-5">
                 <p><strong>5. T/F: We currently have artificial general intelligence. </strong></p>
-                <label><input type="radio" name="q5"> True </label><br>
-                <label><input type="radio" name="q5"> False </label><br>
+                <label><input type="radio" name="q5" value="incorrect" onclick="checkAnswer(name,`answer-feedback5`)"> True </label><br>
+                <label><input type="radio" name="q5" value="correct" onclick="checkAnswer(name,`answer-feedback5`)"> False </label><br>
             </div>
-            <div class="question">
+            <!-- Q5 Result message area -->
+            <div id="answer-feedback5" class="hide"></div>
+
+            <!-- Question 6 -->
+            <div class="question-6">
                 <p><strong>6. T/F: We currently have artificial narrow intelligence. </strong></p>
-                <label><input type="radio" name="q6"> True </label><br>
-                <label><input type="radio" name="q6"> False </label><br>
+                <label><input type="radio" name="q6" value="correct" onclick="checkAnswer(name,`answer-feedback6`)"> True </label><br>
+                <label><input type="radio" name="q6" value="incorrect" onclick="checkAnswer(name,`answer-feedback6`)"> False </label><br>
             </div>
-            <div class="question">
-                <p><strong>7. T/F: Neural Networks can adapt and accurately fulfill requests outside of its training data. </strong></p>
-                <label><input type="radio" name="q7"> True </label><br>
-                <label><input type="radio" name="q7"> False </label><br>
+            <!-- Q6 Result message area -->
+            <div id="answer-feedback6" class="hide"></div>
+
+            <!-- Question 7 -->
+            <div class="question-7">
+                <p><strong>7. T/F: Neural Networks can adapt and accurately fulfill requests outside of its training
+                        data. </strong></p>
+                <label><input type="radio" name="q7" value="incorrect" onclick="checkAnswer(name,`answer-feedback7`)"> True </label><br>
+                <label><input type="radio" name="q7" value="correct" onclick="checkAnswer(name,`answer-feedback7`)"> False </label><br>
             </div>
-            <div class="question">
+            <!-- Q7 Result message area -->
+            <div id="answer-feedback7" class="hide"></div>
+
+            <!-- Question 8 -->
+            <div class="question-8">
                 <p><strong>8. What may be an example of bias in a neural network’s training data? </strong></p>
-                <label><input type="radio" name="q8"> Only hiring male candidates because those were the successful candidates in the training data.  </label><br>
-                <label><input type="radio" name="q8"> Higher false positive matching for faces of racial minorities.  </label><br>
-                <label><input type="radio" name="q8"> An image sorting algorithm assuming a banana is a bus. </label><br>
-                <label><input type="radio" name="q8"> All of the above. </label><br>
+                <label><input type="radio" name="q8" value="incorrect" onclick="checkAnswer(name,`answer-feedback8`)"> Only hiring male candidates because those were the successful candidates in the training data. </label><br>
+                <label><input type="radio" name="q8" value="incorrect" onclick="checkAnswer(name,`answer-feedback8`)"> Higher false positive matching for faces of racial minorities.
+                </label><br>
+                <label><input type="radio" name="q8" value="incorrect" onclick="checkAnswer(name,`answer-feedback8`)"> An image sorting algorithm assuming a banana is a bus.
+                </label><br>
+                <label><input type="radio" name="q8" value="correct" onclick="checkAnswer(name,`answer-feedback8`)"> All of the above. </label><br>
             </div>
-            <div class="question">
-                <p><strong>9. Whose responsibility is it to ensure that code provided by LLMs is safe when it is incorporated into company software?  </strong></p>
-                <label><input type="radio" name="q9"> Those who made the AI.  </label><br>
-                <label><input type="radio" name="q9"> The AI.  </label><br>
-                <label><input type="radio" name="q9"> The software developer using LLMs. </label><br>
-                <label><input type="radio" name="q9"> Thomas Edison.  </label><br>
+            <!-- Q8 Result message area -->
+            <div id="answer-feedback8" class="hide"></div>
+
+            <!-- Question 9 -->
+            <div class="question-9">
+                <p><strong>9. Whose responsibility is it to ensure that code provided by LLMs is safe when it is
+                        incorporated into company software? </strong></p>
+                <label><input type="radio" name="q9" value="incorrect" onclick="checkAnswer(name,`answer-feedback9`)"> Those who made the AI. </label><br>
+                <label><input type="radio" name="q9" value="incorrect" onclick="checkAnswer(name,`answer-feedback9`)"> The AI. </label><br>
+                <label><input type="radio" name="q9" value="correct" onclick="checkAnswer(name,`answer-feedback9`)"> The software developer using LLMs. </label><br>
+                <label><input type="radio" name="q9" value="incorrect" onclick="checkAnswer(name,`answer-feedback9`)"> Thomas Edison. </label><br>
             </div>
-            <div class="question">
+            <!-- Q9 Result message area -->
+            <div id="answer-feedback9" class="hide"></div>
+
+            <!-- Question 10 -->
+            <div class="question-10">
                 <p><strong>10. What everyday software does LLMs resemble most</strong></p>
-                <label><input type="radio" name="q10"> Spell Check </label><br>
-                <label><input type="radio" name="q10"> Search Engines </label><br>
-                <label><input type="radio" name="q10"> Operating Systems </label><br>
-                <label><input type="radio" name="q10"> Calculator Applications </label><br>
+                <label><input type="radio" name="q10" value="correct" onclick="checkAnswer(name,`answer-feedback10`)"> Spell Check </label><br>
+                <label><input type="radio" name="q10" value="incorrect" onclick="checkAnswer(name,`answer-feedback10`)"> Search Engines </label><br>
+                <label><input type="radio" name="q10" value="incorrect" onclick="checkAnswer(name,`answer-feedback10`)"> Operating Systems </label><br>
+                <label><input type="radio" name="q10" value="incorrect" onclick="checkAnswer(name,`answer-feedback10`)"> Calculator Applications </label><br>
             </div>
-            <div class="question">
+            <!-- Q10 Result message area -->
+            <div id="answer-feedback10" class="hide"></div>
+
+            <!-- Question 11 -->
+            <div class="question-11">
                 <p><strong>11. Should you use LLMs as a search engine? </strong></p>
-                <label><input type="radio" name="q11"> Yes </label><br>
-                <label><input type="radio" name="q11"> No </label><br>
+                <label><input type="radio" name="q11" value="incorrect" onclick="checkAnswer(name,`answer-feedback11`)"> Yes </label><br>
+                <label><input type="radio" name="q11" value="correct" onclick="checkAnswer(name,`answer-feedback11`)"> No </label><br>
             </div>
+            <!-- Q11 Result message area -->
+            <div id="answer-feedback11" class="hide"></div>
+
+            <!-- Proceed Button -->
             <div class="button-container">
-            <a href="submitidk.html" class="button">Submit</a>
+                <a href="../quizzes/results/pass.html" class="button disabled" id="proceedBtn">Proceed →</a>
             </div>
         </form>
     </div>
+    <script src="script.js"></script>
 </body>
+
 </html>
