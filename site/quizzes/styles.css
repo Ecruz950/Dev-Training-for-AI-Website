@@ -14,11 +14,25 @@ body {
     object-position: top;
     padding-left: 10px;
 }
-.underline {
-    text-decoration: underline;
+.quiz-container h1 {
+    color: #2C2C2C; /* Dark grey text */
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px; /* Space below the title */
+    padding: 10px; /* Padding inside the grey bar */
+    background-color: #A0A0A0; /* Grey background for the bar */
+    border-radius: 5px; /* Rounded corners for the bar */
+    display: inline-block; /* Ensures the bar wraps around the text */
+    width: 100%; /* Full width of the container */
+    box-sizing: border-box; /* Ensures padding is included in the width */
 }
-.container {
-    padding-left: 10px;
+.quiz-container {
+    /* padding-left: 10px; */
+    margin: 20px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 /* Hide element class */
 .hide {
@@ -52,15 +66,15 @@ body {
 
 /* button styling */
 .button-container {
-    width: max-content;
+    width: 100%;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     margin-top: 20px;
     margin-bottom: 20px;
     padding-right: 20px;
 }
 .button {
-    display: inline-block;
+    /* display: inline-block; */
     background-color: #A0A0A0;
     color: black;
     text-align: center;
@@ -76,4 +90,11 @@ body {
     opacity: 0.5;
     pointer-events: none;
     cursor: not-allowed; /* optional visual cue */
+}
+
+.linebreak-module {
+    background-color: #1E1E1E;
+    height: 1px;
+    width: 100%;
+    margin: 10px 0;
 }

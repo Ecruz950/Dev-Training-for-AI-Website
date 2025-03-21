@@ -1,7 +1,7 @@
 
 // Mappings of correct feedback for each question
 const q1CorrectFeedback = new Map([
-    // Question 1
+    // Question 1 
     ["Large Language Models", "Correct, LLM explicitly stands for this phrase."]
 ]);
 const q2CorrectFeedback = new Map([
@@ -105,101 +105,158 @@ let correctCount = 0;
 
 
 function checkAnswer(name, feedbackResult) {
-    // Gets the selected radio button
+    // Gets the html element of the selected radio button
     const selectedOption = document.querySelector(`input[name=${name}]:checked`);
-    // Gets the id of the result element
+    // console.log(selectedOption);
+    // Gets the html element to display the response feedback
     const resultElement = document.getElementById(feedbackResult);
-    // Gets the text content of the radio button
+    // Gets the text contained next to the users selected radio button
     const label = selectedOption.parentElement.textContent.trim();
-    // Gets the id of the proceed button
+    // Gets the html element of the proceed button
     const proceedButton = document.getElementById("proceedBtn");
 
-    if (selectedOption.value === "correct") {
-        if (name === "q1") {
+    // Check what question the user is answering based on the radio button they selected (q1, q2, q3, etc.)
+    if (name === "q1") {
+        // if the correct answer is selected, display the correct feedback
+        if (q1CorrectFeedback.has(label)) {
+            // Display the correct feedback
             resultElement.textContent = q1CorrectFeedback.get(label);
+            // Disable all radio buttons for the question
             document.querySelectorAll('input[name="q1"]').forEach(radio => radio.disabled = true);
-        } 
-        else if (name === "q2") {
+            // Change the class of the result element to "correct" so that it appears to the user
+            resultElement.className = "correct";
+            // Increment the correct count
+            correctCount++;
+        // If the incorrect answer is selected, display the incorrect feedback
+        } else if (q1IncorrectFeedback.has(label)) {
+            // Display the incorrect feedback
+            resultElement.textContent = q1IncorrectFeedback.get(label);
+            // Change the class of the result element to "incorrect" so that it appears to the user
+            resultElement.className = "incorrect";
+        }
+    }
+    else if (name === "q2") {
+        // if the correct answer is selected, display the correct feedback
+        if (q2CorrectFeedback.has(label)) {
             resultElement.textContent = q2CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q2"]').forEach(radio => radio.disabled = true);
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q2IncorrectFeedback.has(label)) {
+            resultElement.textContent = q2IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        else if (name === "q3") {
+    }
+    else if (name === "q3") {
+        // if the correct answer is selected, display the correct feedback
+        if (q3CorrectFeedback.has(label)) {
             resultElement.textContent = q3CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q3"]').forEach(radio => radio.disabled = true);
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q3IncorrectFeedback.has(label)) {
+            resultElement.textContent = q3IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        else if (name === "q4") {
+    }
+    else if (name === "q4") {
+        // if the correct answer is selected, display the correct feedback
+        if (q4CorrectFeedback.has(label)) {
             resultElement.textContent = q4CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q4"]').forEach(radio => radio.disabled = true);
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q4IncorrectFeedback.has(label)) {
+            resultElement.textContent = q4IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        else if (name === "q5") {
+    }
+    else if (name === "q5") {
+        // if the correct answer is selected, display the correct feedback
+        if (q5CorrectFeedback.has(label)) {
             resultElement.textContent = q5CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q5"]').forEach(radio => radio.disabled = true);
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q5IncorrectFeedback.has(label)) {
+            resultElement.textContent = q5IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        else if (name === "q6") {
+    }
+    else if (name === "q6") {
+        // if the correct answer is selected, display the correct feedback
+        if (q6CorrectFeedback.has(label)) {
             resultElement.textContent = q6CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q6"]').forEach(radio => radio.disabled = true);
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q6IncorrectFeedback.has(label)) {
+            resultElement.textContent = q6IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        else if (name === "q7") {
+    }
+    else if (name === "q7") {
+        // if the correct answer is selected, display the correct feedback
+        if (q7CorrectFeedback.has(label)) {
             resultElement.textContent = q7CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q7"]').forEach(radio => radio.disabled = true);
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q7IncorrectFeedback.has(label)) {
+            resultElement.textContent = q7IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        else if (name === "q8") {
+    }
+    else if (name === "q8") {
+        // if the correct answer is selected, display the correct feedback
+        if (q8CorrectFeedback.has(label)) {
             resultElement.textContent = q8CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q8"]').forEach(radio => radio.disabled = true);
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q8IncorrectFeedback.has(label)) {
+            resultElement.textContent = q8IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        else if (name === "q9") {
+    }
+    else if (name === "q9") {
+        // if the correct answer is selected, display the correct feedback
+        if (q9CorrectFeedback.has(label)) {
             resultElement.textContent = q9CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q9"]').forEach(radio => radio.disabled = true);
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q9IncorrectFeedback.has(label)) {
+            resultElement.textContent = q9IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        else if (name === "q10") {
+    }
+    else if (name === "q10") {
+        // if the correct answer is selected, display the correct feedback
+        if (q10CorrectFeedback.has(label)) {
             resultElement.textContent = q10CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q10"]').forEach(radio => radio.disabled = true);
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q10IncorrectFeedback.has(label)) {
+            resultElement.textContent = q10IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        else if (name === "q11") {
+    }
+    else if (name === "q11") {
+        // if the correct answer is selected, display the correct feedback
+        if (q11CorrectFeedback.has(label)) {
             resultElement.textContent = q11CorrectFeedback.get(label);
             document.querySelectorAll('input[name="q11"]').forEach(radio => radio.disabled = true);
-        }
-        resultElement.className = "correct";
-        correctCount++;
-        // If all questions are correct, enable the submit button for the user to proceed
-        if (correctCount === 11) {
-            proceedButton.className = "button";
-        }
-        
-    } else if (selectedOption.value === "incorrect") {
-        if (name === "q1") {
-            resultElement.textContent = q1IncorrectFeedback.get(label);
-        }
-        else if (name === "q2") {
-            resultElement.textContent = q2IncorrectFeedback.get(label);
-        }
-        else if (name === "q3") {
-            resultElement.textContent = q3IncorrectFeedback.get(label);
-        }
-        else if (name === "q4") {
-            resultElement.textContent = q4IncorrectFeedback.get(label);
-        }
-        else if (name === "q5") {
-            resultElement.textContent = q5IncorrectFeedback.get(label);
-        }
-        else if (name === "q6") {
-            resultElement.textContent = q6IncorrectFeedback.get(label);
-        }
-        else if (name === "q7") {
-            resultElement.textContent = q7IncorrectFeedback.get(label);
-        }
-        else if (name === "q8") {
-            resultElement.textContent = q8IncorrectFeedback.get(label);
-        }
-        else if (name === "q9") {
-            resultElement.textContent = q9IncorrectFeedback.get(label);
-        }
-        else if (name === "q10") {
-            resultElement.textContent = q10IncorrectFeedback.get(label);
-        }
-        else if (name === "q11") {
+            resultElement.className = "correct";
+            correctCount++;
+        } else if (q11IncorrectFeedback.has(label)) {
             resultElement.textContent = q11IncorrectFeedback.get(label);
+            resultElement.className = "incorrect";
         }
-        resultElement.className = "incorrect";
+    }
+    // If all questions are correct, enable the submit button for the user to proceed
+    if (correctCount === 11) {
+        proceedButton.className = "button";
     }
 }
