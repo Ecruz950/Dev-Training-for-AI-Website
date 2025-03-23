@@ -68,30 +68,41 @@ body {
     font-weight: 700;
     margin-bottom: 10px;
 }
-
-.main-menu button {
+.button-container1 {
+    /* Button style */
+    display: flex;
+    justify-content: start;
+    align-items: center;
     margin: 5px 0;
     width: 220px;
     height: 45px;
     background: #D9D9D9;
     border-radius: 10px;
     border: none;
-    text-align: left;
-    color: #1E1E1E;
-    font-size: 18px;
-    font-weight: 700;
+    cursor: pointer;
+    transition-duration: 0.5s;
+
 }
 
-.main-menu i {
+.main-menu a {
+    /* Text style */
+    font-size: 18px;
+    font-family: Inter;
+    font-weight: 700;
+    text-decoration: none;
+    color: #1E1E1E;
+}
+
+.button-container1 i {
     margin: 0 10px;
 }
 
-.main-menu button:hover {
+.button-container1:hover {
+    transform: scale(1.05);
     background: #B3B3B3;
-    transition-duration: 0.5s;
 }
 
-.main-menu button:focus {
+.button-container1:focus {
     background-color: #2C2C2C;
     color: #D9D9D9;
 }
@@ -179,7 +190,7 @@ body {
 }
 
 /* PROCEED BUTTON STYLES */
-.button-container {
+.button-container2 {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
