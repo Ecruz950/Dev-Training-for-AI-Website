@@ -12,19 +12,20 @@
 
 ~~- Implement a "back" button that lets user traverse to the previous page (E.g., Quiz --> Video page --> Module overview page) (Assigned: Giselle)~~
 
-- Figure out how to we are going to import the module video from backend to frontend (Assigned: N/a)
 
-- Hamburger Menu on the top left corner of the navbar that slides the left side bar menu in and out when clicked (Assigned: Edgar)
+- Hamburger Menu on the top left corner of the navbar that slides the left side bar menu in and out when clicked (Assigned: Edgar/Giselle)
+
+- Login page & Registration Page 
+    - Login/Registration back-end functionality (Assigned: Alec)
+    - Login/Registration page (Assigned: Edgar/Giselle)
 
 - Move website to the server (Done at the end when website is finished) (Assigned: Alec)
-
-- Login page & Registration Page (Assigned: Alec)
-    - Login/Registration functionality
 
 - Make sure website is responsive & secure
 
 
 ## What we are storing in the database
-- Username & Password
+- Email, Password, and Full Name
 - Quiz results
-- Module status 
+- Enrolled Modules & Completed Modules
+    - Module status for each module 
