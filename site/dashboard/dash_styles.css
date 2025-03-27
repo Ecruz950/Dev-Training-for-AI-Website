@@ -129,7 +129,7 @@ p {
 
 
 /* NOTIFICATION BELL */
-.noti-bell {
+/* .noti-bell {
     margin-right: 20px;
     border: none;
     background: none;
@@ -142,7 +142,7 @@ p {
 
 .noti-bell:hover {
     transform: scale(1.2);
-}
+} */
 
 /* MODULE CONTAINER */
 .module-section {
