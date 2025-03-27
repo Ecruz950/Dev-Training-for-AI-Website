@@ -13,11 +13,11 @@
 ~~- Implement a "back" button that lets user traverse to the previous page (E.g., Quiz --> Video page --> Module overview page) (Assigned: Giselle)~~
 
 
-- Hamburger Menu on the top left corner of the navbar that slides the left side bar menu in and out when clicked (Assigned: Edgar/Giselle)
+~~- Hamburger Menu on the top left corner of the navbar that slides the left side bar menu in and out when clicked (Assigned: Edgar/Giselle)~~
 
 - Login page & Registration Page 
     - Login/Registration back-end functionality (Assigned: Alec)
-    - Login/Registration page (Assigned: Edgar/Giselle)
+    - Login/Registration front-end page (Assigned: Edgar/Giselle)
 
 - Move website to the server (Done at the end when website is finished) (Assigned: Alec)
 
