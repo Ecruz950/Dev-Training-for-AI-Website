@@ -9,6 +9,7 @@
     <title>Module Overview</title>
 </head>
 <body>
+    <input type="checkbox" id="sidebar-toggle" hidden />
     <!-- SIDEBAR SECTION (left hand side of webpage)-->
     <section class="sideBar-section">
         <h2>DevTrainAI</h2>
@@ -43,7 +44,10 @@
     <section class="rhs">
         <!-- NAVBAR SECTION -->
         <section class="navBar-section">
-            <button class="noti-bell"><i class="bi bi-bell-fill"></i></button>
+            <label for="sidebar-toggle" class="hamburger-icon">
+                <i class="bi bi-list"></i>
+            </label>
+            <!-- <button class="noti-bell"><i class="bi bi-bell-fill"></i></button> -->
         </section>
 
         <!-- OVERVIEW CONTENT SECTION -->
