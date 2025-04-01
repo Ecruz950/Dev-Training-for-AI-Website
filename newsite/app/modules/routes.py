@@ -52,28 +52,10 @@ def serve_video(filename):
 def submit_quiz():
     data = request.get_json()
     module_id = data.get('module_id')
-    answers = data.get('answers', [])
+    completed = data.get('completed', False)
     
-    # Load quiz questions
-    quiz_path = os.path.join(current_app.static_folder, 'quizzes', f'{module_id}_quiz.json')
-    
-    if not os.path.exists(quiz_path):
-        return {'status': 'error', 'message': 'Quiz not found'}
-        
-    with open(quiz_path, 'r') as f:
-        quiz_data = json.load(f)
-    
-    # Calculate score
-    correct_count = 0
-    for i, answer in enumerate(answers):
-        if i < len(quiz_data['questions']) and answer == quiz_data['questions'][i]['correct_answer']:
-            correct_count += 1
-    
-    # Calculate percentage score
-    if len(quiz_data['questions']) > 0:
-        score = int((correct_count / len(quiz_data['questions'])) * 100)
-    else:
-        score = 0
+    if not completed:
+        return {'status': 'error', 'message': 'Quiz not completed correctly'}
     
     # Update progress
     progress = ModuleProgress.query.filter_by(
@@ -90,7 +72,7 @@ def submit_quiz():
         db.session.add(progress)
     
     progress.quiz_completed = True
-    progress.quiz_score = score
+    progress.quiz_score = 100  # If they complete it, they got 100%
     db.session.commit()
     
-    return {'status': 'success', 'score': score}
+    return {'status': 'success', 'score': 100}

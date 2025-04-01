@@ -6,13 +6,19 @@
 <div class="container">
     <h1>{{ module.title }} - Quiz</h1>
     <div class="quiz-container">
-        <form id="quiz-form">
-            <div class="quiz-questions">
-                <!-- Questions will be loaded dynamically -->
-                <p id="loading-indicator">Loading quiz questions...</p>
+        <div id="quiz-progress">
+            <div class="progress-bar">
+                <div class="progress" id="progress-indicator" style="width: 0%"></div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit Quiz</button>
-        </form>
+            <div class="progress-text">Completed: <span id="completed-count">0</span>/<span id="total-count">0</span></div>
+        </div>
+        <div id="quiz-questions">
+            <!-- Questions will be loaded dynamically -->
+            <p id="loading-indicator">Loading quiz questions...</p>
+        </div>
+        <div class="quiz-navigation">
+            <button id="complete-quiz" class="btn btn-success" disabled>Complete Quiz</button>
+        </div>
     </div>
     <div class="module-navigation">
         <a href="{{ url_for('modules.video', module_id=module.id) }}" class="btn btn-secondary">Back to Video</a>
@@ -21,9 +27,15 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const quizForm = document.getElementById('quiz-form');
-    const questionsContainer = document.querySelector('.quiz-questions');
+    const questionsContainer = document.getElementById('quiz-questions');
     const loadingIndicator = document.getElementById('loading-indicator');
+    const completeQuizButton = document.getElementById('complete-quiz');
+    const progressIndicator = document.getElementById('progress-indicator');
+    const completedCountElement = document.getElementById('completed-count');
+    const totalCountElement = document.getElementById('total-count');
+    
+    let totalQuestions = 0;
+    let correctAnswers = 0;
     
     console.log("Loading quiz for Module ID: {{ module.id }}");
     
@@ -39,74 +51,100 @@ document.addEventListener('DOMContentLoaded', function() {
             // Remove loading indicator
             loadingIndicator.remove();
             
+            totalQuestions = data.questions.length;
+            totalCountElement.textContent = totalQuestions;
+            
             // Display questions
             data.questions.forEach((question, index) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question';
-                questionDiv.innerHTML = `
+                questionDiv.id = `question-${index}`;
+                
+                const questionHtml = `
                     <p class="question-text">${index + 1}. ${question.text}</p>
                     <div class="options">
                         ${question.options.map((option, optIndex) => `
-                            <label>
-                                <input type="radio" name="q${index}" value="${optIndex}">
-                                ${option}
-                            </label>
+                            <div class="option">
+                                <input type="radio" id="q${index}_opt${optIndex}" name="q${index}" value="${optIndex}">
+                                <label for="q${index}_opt${optIndex}">${option}</label>
+                            </div>
                         `).join('')}
                     </div>
+                    <div class="feedback" id="feedback-${index}"></div>
                 `;
+                
+                questionDiv.innerHTML = questionHtml;
                 questionsContainer.appendChild(questionDiv);
+                
+                // Add event listeners to radio buttons
+                const radioButtons = questionDiv.querySelectorAll(`input[name="q${index}"]`);
+                radioButtons.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        const selectedValue = parseInt(radio.value);
+                        const feedbackElement = document.getElementById(`feedback-${index}`);
+                        
+                        if (selectedValue === question.correct_answer) {
+                            // Correct answer
+                            feedbackElement.textContent = question.feedback.correct;
+                            feedbackElement.className = 'feedback correct';
+                            
+                            // Disable all radio buttons for this question
+                            radioButtons.forEach(r => r.disabled = true);
+                            
+                            // Increment correct answers count
+                            correctAnswers++;
+                            completedCountElement.textContent = correctAnswers;
+                            
+                            // Update progress bar
+                            const progressPercentage = (correctAnswers / totalQuestions) * 100;
+                            progressIndicator.style.width = `${progressPercentage}%`;
+                            
+                            // Enable complete button if all questions are answered correctly
+                            if (correctAnswers === totalQuestions) {
+                                completeQuizButton.disabled = false;
+                            }
+                        } else {
+                            // Incorrect answer
+                            feedbackElement.textContent = question.feedback.incorrect;
+                            feedbackElement.className = 'feedback incorrect';
+                        }
+                    });
+                });
+            });
+            
+            // Add event listener to complete button
+            completeQuizButton.addEventListener('click', () => {
+                // Submit the quiz results to the server
+                fetch('{{ url_for("modules.submit_quiz") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        module_id: {{ module.id }},
+                        completed: true,
+                        score: 100 // Always 100% when completed
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Congratulations! You have completed the quiz successfully.');
+                        window.location.href = "{{ url_for('modules.index') }}";
+                    } else {
+                        alert('Error submitting quiz. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting quiz:', error);
+                    alert('Error submitting quiz. Please try again.');
+                });
             });
         })
         .catch(error => {
             console.error('Error loading quiz:', error);
             questionsContainer.innerHTML = '<p class="error">Error loading quiz questions. Please try again later.</p>';
         });
-
-    quizForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const answers = [];
-        const questions = document.querySelectorAll('.question');
-        questions.forEach((question, index) => {
-            const selected = question.querySelector(`input[name="q${index}"]:checked`);
-            if (selected) {
-                answers.push(parseInt(selected.value));
-            } else {
-                answers.push(null); // No answer selected
-            }
-        });
-
-        // Check if all questions are answered
-        if (answers.includes(null)) {
-            alert('Please answer all questions before submitting.');
-            return;
-        }
-
-        // Submit answers to server
-        fetch('{{ url_for("modules.submit_quiz") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                module_id: {{ module.id }},
-                answers: answers
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert(`Quiz completed! Your score: ${data.score}%`);
-                window.location.href = "{{ url_for('modules.index') }}";
-            } else {
-                alert('Error submitting quiz. Please try again.');
-            }
-        })
-        .catch(error => {
-            console.error('Error submitting quiz:', error);
-            alert('Error submitting quiz. Please try again.');
-        });
-    });
 });
 </script>
 
@@ -118,18 +156,42 @@ document.addEventListener('DOMContentLoaded', function() {
     border-radius: 5px;
 }
 .question {
-    margin-bottom: 20px;
-    padding-bottom: 15px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #e0e0e0;
 }
 .question-text {
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
-.options label {
-    display: block;
-    margin: 5px 0;
+.options {
+    margin-bottom: 15px;
+}
+.option {
+    margin: 8px 0;
+}
+.option label {
+    display: inline;
+    margin-left: 8px;
     cursor: pointer;
+}
+.feedback {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    display: none;
+}
+.feedback.correct {
+    display: block;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.feedback.incorrect {
+    display: block;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 .error {
     color: red;
@@ -138,6 +200,30 @@ document.addEventListener('DOMContentLoaded', function() {
 #loading-indicator {
     font-style: italic;
     color: #666;
+}
+.quiz-navigation {
+    margin-top: 20px;
+    text-align: center;
+}
+#quiz-progress {
+    margin-bottom: 20px;
+}
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.progress {
+    height: 100%;
+    background-color: #28a745;
+    transition: width 0.3s ease;
+}
+.progress-text {
+    text-align: center;
+    margin-top: 5px;
+    font-weight: bold;
 }
 </style>
 {% endblock %} 
