@@ -3,24 +3,22 @@
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
-<div class="hero-section">
-    <h1>Welcome to AI Training Platform</h1>
-    <p>Your gateway to learning and mastering artificial intelligence</p>
-</div>
-
-<div class="auth-container">
-    <div class="auth-grid">
-        <div class="auth-card">
-            <h2>New User?</h2>
-            <p>Create an account to start your learning journey</p>
-            <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register</a>
-        </div>
-        
-        <div class="auth-card">
-            <h2>Already a Member?</h2>
-            <p>Sign in to continue your learning</p>
-            <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
-        </div>
+<div class="welcome-container">
+    <h1>Welcome to Dev Training</h1>
+    <p>Your gateway to learning and mastering software development and AI skills. Join our platform to access training modules, quizzes, and track your progress.</p>
+    
+    {% if not current_user.is_authenticated %}
+    <div class="welcome-actions">
+        <a href="{{ url_for('auth.register') }}" class="welcome-btn">Register</a>
+        <a href="{{ url_for('auth.login') }}" class="welcome-btn outline">Login</a>
     </div>
+    {% else %}
+    <div class="welcome-actions">
+        <a href="{{ url_for('main.profile') }}" class="welcome-btn">View Profile</a>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin.index') }}" class="welcome-btn outline">Admin Dashboard</a>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
 {% endblock %} 

@@ -5,6 +5,8 @@ from app.models import User, db, Group, Notification
 from werkzeug.utils import secure_filename
 from app.auth import bp
 import os
+from werkzeug.urls import url_parse
+from app.auth.forms import LoginForm, RegistrationForm
 
 @bp.route('/')
 def index():
@@ -14,51 +16,54 @@ def index():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
-        
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        user = User.query.filter_by(username=username).first()
-        
-        if user and user.check_password(password):
-            login_user(user)
-            return redirect(url_for('main.index'))
-        flash('Invalid username or password', 'error')
     
-    return render_template('auth/login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password', 'error')
+            return redirect(url_for('auth.login'))
+        
+        login_user(user, remember=form.remember_me.data)
+        
+        # Debug information
+        print(f"Login successful for user: {user.username}")
+        print(f"User admin status: is_admin={user.is_admin}, is_group_admin={user.is_group_admin}")
+        
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            if user.is_admin:
+                next_page = url_for('admin.index')
+                print(f"Redirecting admin to: {next_page}")
+            else:
+                next_page = url_for('main.index')
+        
+        flash('Welcome back!', 'success')
+        return redirect(next_page)
+    
+    return render_template('auth/login.html', title='Sign In', form=form)
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
-        
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        
-        if User.query.filter_by(username=username).first():
-            flash('Username already exists', 'error')
-            return redirect(url_for('auth.register'))
-            
-        if User.query.filter_by(email=email).first():
-            flash('Email already registered', 'error')
-            return redirect(url_for('auth.register'))
-            
-        user = User(username=username, email=email)
-        user.set_password(password)
+    
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        
-        flash('Registration successful! Please login.', 'success')
+        flash('Congratulations, you are now a registered user!', 'success')
         return redirect(url_for('auth.login'))
     
-    return render_template('auth/register.html')
+    return render_template('auth/register.html', title='Register', form=form)
 
 @bp.route('/logout')
 @login_required
 def logout():
     logout_user()
+    flash('You have been logged out.', 'success')
     return redirect(url_for('main.index'))
 
 @bp.route('/notifications')

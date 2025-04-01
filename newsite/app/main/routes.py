@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
-from app.models import User, Group, Notification
+from app.models import User, Group, Notification, Module
 from app import db
 
 bp = Blueprint('main', __name__)
@@ -8,6 +8,11 @@ bp = Blueprint('main', __name__)
 @bp.route('/')
 def index():
     return render_template('main/index.html')
+
+@bp.route('/profile')
+@login_required
+def profile():
+    return render_template('main/profile.html')
 
 @bp.route('/group-management')
 @login_required

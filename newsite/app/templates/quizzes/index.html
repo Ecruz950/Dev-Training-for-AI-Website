@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Quizzes{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1>Available Quizzes</h1>
+    
+    {% if quizzes %}
+        <div class="quiz-grid">
+            {% for quiz in quizzes %}
+                <div class="quiz-card">
+                    <h3>{{ quiz.title }}</h3>
+                    <p>{{ quiz.description }}</p>
+                    <div class="quiz-meta">
+                        <span>Questions: {{ quiz.questions|length }}</span>
+                        <span>Time Limit: {{ quiz.time_limit }} minutes</span>
+                    </div>
+                    <a href="{{ url_for('quizzes.take_quiz', quiz_id=quiz.id) }}" class="btn btn-primary">Start Quiz</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No quizzes available at the moment.</p>
+    {% endif %}
+</div>
+{% endblock %} 

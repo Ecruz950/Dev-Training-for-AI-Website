@@ -1,65 +1,52 @@
 {% extends "base.html" %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="profile-section">
-        <h1>Profile</h1>
-        <div class="profile-info">
-            <div class="profile-header">
-                <img src="{{ current_user.avatar or url_for('static', filename='images/default-avatar.png') }}" alt="Avatar" class="profile-avatar">
-                <div class="profile-details">
-                    <h2>{{ current_user.username }}</h2>
-                    <p class="email">{{ current_user.email }}</p>
-                </div>
+<div class="content-container">
+    <h1>My Profile</h1>
+    
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-image">
+                <i class="fas fa-user-circle"></i>
             </div>
-            
-            <div class="profile-stats">
-                <div class="stat-card">
-                    <i class="fas fa-book"></i>
-                    <div class="stat-info">
-                        <span class="stat-value">{{ current_user.module_progress|length }}</span>
-                        <span class="stat-label">Modules Completed</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-trophy"></i>
-                    <div class="stat-info">
-                        <span class="stat-value">{{ current_user.module_progress|selectattr('quiz_completed')|list|length }}</span>
-                        <span class="stat-label">Quizzes Passed</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-progress">
-                <h3>Module Progress</h3>
-                <div class="progress-list">
-                    {% if current_user.module_progress %}
-                        {% for progress in current_user.module_progress %}
-                            <div class="progress-item">
-                                <div class="progress-header">
-                                    <h4>{{ progress.module.title }}</h4>
-                                    <span class="progress-status {% if progress.completed %}completed{% endif %}">
-                                        {% if progress.completed %}
-                                            <i class="fas fa-check-circle"></i> Completed
-                                        {% else %}
-                                            In Progress
-                                        {% endif %}
-                                    </span>
-                                </div>
-                                <div class="progress-details">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: {{ progress.progress }}%"></div>
-                                    </div>
-                                    <span class="progress-text">{{ progress.progress }}% Complete</span>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="no-progress">No modules started yet.</p>
+            <div class="profile-info">
+                <h2>{{ current_user.username }}</h2>
+                <p>{{ current_user.email }}</p>
+                <div class="user-badges">
+                    {% if current_user.is_admin %}
+                        <span class="badge badge-admin">Admin</span>
+                    {% endif %}
+                    {% if current_user.is_group_admin %}
+                        <span class="badge badge-group-admin">Group Admin</span>
                     {% endif %}
                 </div>
+            </div>
+        </div>
+        
+        <div class="profile-sections">
+            <div class="profile-section">
+                <h3>Account Information</h3>
+                <div class="info-row">
+                    <span class="info-label">Member since:</span>
+                    <span class="info-value">{{ current_user.created_at.strftime('%B %d, %Y') }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">{{ current_user.email }}</span>
+                </div>
+                {% if current_user.is_group_admin %}
+                <div class="info-row">
+                    <span class="info-label">Groups managed:</span>
+                    <span class="info-value">{{ current_user.administered_groups|length }}</span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="profile-section">
+                <h3>Learning Progress</h3>
+                <a href="{{ url_for('modules.index') }}" class="btn btn-primary">View Available Modules</a>
             </div>
         </div>
     </div>

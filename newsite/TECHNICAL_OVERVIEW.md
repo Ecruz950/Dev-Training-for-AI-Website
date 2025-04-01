@@ -8,7 +8,6 @@ This is a comprehensive training platform built with Flask, designed to deliver 
 - **Database**: SQLAlchemy with PostgreSQL
 - **Authentication**: Flask-Login
 - **Forms**: Flask-WTF
-- **Email**: Flask-Mail
 - **Frontend**: Bootstrap 5, Custom CSS/JavaScript
 - **Template Engine**: Jinja2
 
@@ -24,6 +23,11 @@ This is a comprehensive training platform built with Flask, designed to deliver 
   - Admin users with full system access
   - Regular users with learning access
   - Group-based access control
+- **Group Management**
+  - Group creation and management
+  - Group member management
+  - Group-based content access control
+  - Group admin role with limited administrative privileges
 
 ### 2. Learning Management System
 - **Module Structure**
@@ -73,6 +77,18 @@ This is a comprehensive training platform built with Flask, designed to deliver 
   - Quiz performance statistics
   - Module completion rates
 
+### 6. Notification System
+- **In-App Notifications**
+  - Real-time notifications for new content
+  - Quiz completion notifications
+  - Group updates and announcements
+  - System notifications
+- **Notification Management**
+  - Mark as read/unread functionality
+  - Notification preferences
+  - Notification history
+  - Priority-based notifications
+
 ## Technical Implementation Details
 
 ### Database Schema
@@ -81,6 +97,11 @@ This is a comprehensive training platform built with Flask, designed to deliver 
   - Profile information
   - Role management
   - Progress tracking
+- **Group Model**
+  - Group information
+  - Member relationships
+  - Group admin assignment
+  - Access control settings
 - **Module Model**
   - Content structure
   - Section relationships
@@ -93,14 +114,18 @@ This is a comprehensive training platform built with Flask, designed to deliver 
   - User completion tracking
   - Quiz attempt records
   - Achievement tracking
+- **Notification Model**
+  - Notification content
+  - User associations
+  - Read status
+  - Timestamp tracking
 
 ### Security Features
 - Password hashing with Werkzeug
 - CSRF protection
 - Session management
 - Role-based access control
-- Secure file uploads
-- Input validation and sanitization
+- Group-based permissions
 
 ### Frontend Implementation
 - **Responsive Design**
@@ -185,3 +210,11 @@ training_website/
 - Bug tracking and resolution
 
 This technical overview provides a comprehensive understanding of the system's architecture, features, and implementation details. For specific implementation details, refer to the individual component documentation and code comments. 
+
+### Recent Changes
+- Removed email sending functionality in favor of in-app notifications
+- Implemented comprehensive group management system
+- Added real-time notification system
+- Updated database schema to support groups and notifications
+- Enhanced user interface for group management
+- Added notification preferences and management 
