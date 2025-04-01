@@ -197,6 +197,9 @@ p {
     font-family: Inter;
     font-weight: 400;
 }
+#module-card-status {
+    display: inline-block;
+}
 
 .complete-modules-container {
     display: flex;
@@ -208,4 +211,8 @@ p {
     height: 1px;
     width: auto;
     margin-top: 5px;
+}
+
+.hiden {
+    display: none;
 }
