@@ -21,7 +21,7 @@ def video(module_id):
     
     # Set the video path if not already set
     if not module.video_path and module.id == 1:
-        module.video_path = 'modules/module1Video.mp4'
+        module.video_path = 'module1Video.mp4'
         db.session.commit()
         
     return render_template('modules/video.html', module=module)
@@ -43,8 +43,8 @@ def quiz(module_id):
 @login_required
 def serve_video(filename):
     return send_from_directory(
-        os.path.join(current_app.static_folder, 'modules'),
-        filename
+        current_app.static_folder,
+        os.path.join('modules', filename)
     )
 
 @bp.route('/api/quiz/submit', methods=['POST'])

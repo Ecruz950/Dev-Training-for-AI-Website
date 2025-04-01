@@ -7,7 +7,7 @@
     <h1>{{ module.title }}</h1>
     <div class="video-container">
         <video controls width="100%">
-            <source src="{{ url_for('modules.serve_video', filename=module.video_path) }}" type="video/mp4">
+            <source src="{{ url_for('static', filename='modules/' + module.video_path) }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>

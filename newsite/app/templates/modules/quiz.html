@@ -9,6 +9,7 @@
         <form id="quiz-form">
             <div class="quiz-questions">
                 <!-- Questions will be loaded dynamically -->
+                <p id="loading-indicator">Loading quiz questions...</p>
             </div>
             <button type="submit" class="btn btn-primary">Submit Quiz</button>
         </form>
@@ -22,11 +23,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     const quizForm = document.getElementById('quiz-form');
     const questionsContainer = document.querySelector('.quiz-questions');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    
+    console.log("Loading quiz for Module ID: {{ module.id }}");
     
     // Load quiz questions from the server
-    fetch(`/static/quizzes/${module.id}_quiz.json`)
-        .then(response => response.json())
+    fetch(`/static/quizzes/{{ module.id }}_quiz.json`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Quiz file not found');
+            }
+            return response.json();
+        })
         .then(data => {
+            // Remove loading indicator
+            loadingIndicator.remove();
+            
+            // Display questions
             data.questions.forEach((question, index) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question';
@@ -96,4 +109,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+<style>
+.quiz-container {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+.question {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.question-text {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.options label {
+    display: block;
+    margin: 5px 0;
+    cursor: pointer;
+}
+.error {
+    color: red;
+    font-weight: bold;
+}
+#loading-indicator {
+    font-style: italic;
+    color: #666;
+}
+</style>
 {% endblock %} 
