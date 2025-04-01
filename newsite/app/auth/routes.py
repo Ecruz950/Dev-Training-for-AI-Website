@@ -122,4 +122,10 @@ def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@bp.route('/force-logout')
+def force_logout():
+    logout_user()
+    flash('Your session has been cleared.', 'info')
+    return redirect(url_for('auth.login'))
+
 # Routes will be added here

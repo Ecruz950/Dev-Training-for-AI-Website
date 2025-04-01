@@ -41,7 +41,8 @@ def create_app():
     from app.quizzes import bp as quizzes_bp
     app.register_blueprint(quizzes_bp, url_prefix='/quizzes')
     
-    from app.routes.main import main as main_bp
+    # Register main blueprint only
+    from app.main import bp as main_bp
     app.register_blueprint(main_bp)
     
     # Create database tables
