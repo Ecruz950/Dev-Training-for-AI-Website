@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - AI Training Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="dashboard">
+            <div class="dashboard-header">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+                <h2>AI Training</h2>
+            </div>
+            <nav class="dashboard-nav">
+                <a href="{{ url_for('main.index') }}" class="nav-item {% if request.endpoint == 'main.index' %}active{% endif %}">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('modules.index') }}" class="nav-item {% if request.endpoint.startswith('modules.') %}active{% endif %}">
+                        <i class="fas fa-book"></i>
+                        Modules
+                    </a>
+                    <a href="{{ url_for('quizzes.index') }}" class="nav-item {% if request.endpoint.startswith('quizzes.') %}active{% endif %}">
+                        <i class="fas fa-question-circle"></i>
+                        Quizzes
+                    </a>
+                    {% if current_user.is_group_admin or current_user.is_admin %}
+                        <a href="{{ url_for('main.group_management') }}" class="nav-item {% if request.endpoint == 'main.group_management' %}active{% endif %}">
+                            <i class="fas fa-users"></i>
+                            Group Management
+                        </a>
+                    {% endif %}
+                    {% if current_user.is_admin %}
+                        <a href="{{ url_for('admin.index') }}" class="nav-item {% if request.endpoint.startswith('admin.') %}active{% endif %}">
+                            <i class="fas fa-cog"></i>
+                            Admin
+                        </a>
+                    {% endif %}
+                    <a href="{{ url_for('auth.logout') }}" class="nav-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="nav-item {% if request.endpoint == 'auth.login' %}active{% endif %}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="{{ url_for('auth.register') }}" class="nav-item {% if request.endpoint == 'auth.register' %}active{% endif %}">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Register</span>
+                    </a>
+                {% endif %}
+            </nav>
+            {% if current_user.is_authenticated %}
+                <div class="dashboard-footer">
+                    <div class="user-info">
+                        <img src="{{ current_user.avatar or url_for('static', filename='images/default-avatar.png') }}" alt="Avatar" class="avatar">
+                        <div class="user-details">
+                            <span class="username">{{ current_user.username }}</span>
+                            {% if current_user.groups.count() > 0 %}
+                                <span class="role">{{ current_user.groups.first().name }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="main-content">
+        <nav class="top-nav">
+            <div class="nav-left">
+                <h1>{% block header %}{% endblock %}</h1>
+            </div>
+            
+            {% if current_user.is_authenticated %}
+                <div class="nav-right">
+                    <div class="notification-dropdown">
+                        <button class="notification-toggle">
+                            <i class="fas fa-bell"></i>
+                            {% if current_user.notifications %}
+                                <span class="notification-badge">{{ current_user.notifications|length }}</span>
+                            {% endif %}
+                        </button>
+                        
+                        <div class="notification-menu">
+                            {% if current_user.notifications %}
+                                {% for notification in current_user.notifications %}
+                                    <div class="notification-item">
+                                        <div class="notification-content">
+                                            <p>{{ notification.content }}</p>
+                                            <small>{{ notification.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                                        </div>
+                                        {% if notification.type == 'group_invite' %}
+                                            <div class="notification-actions">
+                                                <a href="{{ url_for('auth.accept_invite', notification_id=notification.id) }}" class="btn btn-success">Accept</a>
+                                                <a href="{{ url_for('auth.reject_invite', notification_id=notification.id) }}" class="btn btn-danger">Reject</a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="notification-item">
+                                    <p>No notifications</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary">Logout</a>
+                </div>
+            {% endif %}
+        </nav>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dashboardToggle = document.querySelector('.dashboard-toggle');
+            const dashboard = document.querySelector('.dashboard');
+            const mainContent = document.querySelector('.main-content');
+
+            dashboardToggle.addEventListener('click', function() {
+                dashboard.classList.toggle('active');
+                mainContent.classList.toggle('shifted');
+            });
+
+            // Close dashboard when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && 
+                    !dashboard.contains(e.target) && 
+                    !dashboardToggle.contains(e.target)) {
+                    dashboard.classList.remove('active');
+                    mainContent.classList.remove('shifted');
+                }
+            });
+        });
+
+        // Notification dropdown
+        document.querySelector('.notification-toggle').addEventListener('click', function() {
+            document.querySelector('.notification-menu').classList.toggle('active');
+        });
+
+        // Close notification dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.notification-dropdown')) {
+                document.querySelector('.notification-menu').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Create Account</h2>
+    <form method="POST" action="{{ url_for('auth.register') }}">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="is_group_admin" id="is_group_admin">
+                Register as Group Admin
+            </label>
+        </div>
+        
+        <div id="group_name_field" class="form-group" style="display: none;">
+            <label for="group_name">Group Name</label>
+            <input type="text" id="group_name" name="group_name">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    
+    <p class="mt-3">Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
+</div>
+
+<script>
+document.getElementById('is_group_admin').addEventListener('change', function() {
+    const groupNameField = document.getElementById('group_name_field');
+    const groupNameInput = document.getElementById('group_name');
+    
+    if (this.checked) {
+        groupNameField.style.display = 'block';
+        groupNameInput.required = true;
+    } else {
+        groupNameField.style.display = 'none';
+        groupNameInput.required = false;
+    }
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}{{ module.title }} - Quiz{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ module.title }} - Quiz</h1>
+    <div class="quiz-container">
+        <form id="quiz-form">
+            <div class="quiz-questions">
+                <!-- Questions will be loaded dynamically -->
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Quiz</button>
+        </form>
+    </div>
+    <div class="module-navigation">
+        <a href="{{ url_for('modules.video', module_id=module.id) }}" class="btn btn-secondary">Back to Video</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const quizForm = document.getElementById('quiz-form');
+    const questionsContainer = document.querySelector('.quiz-questions');
+    
+    // Load quiz questions from the server
+    fetch(`/static/quizzes/${module.id}_quiz.json`)
+        .then(response => response.json())
+        .then(data => {
+            data.questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <p class="question-text">${index + 1}. ${question.text}</p>
+                    <div class="options">
+                        ${question.options.map((option, optIndex) => `
+                            <label>
+                                <input type="radio" name="q${index}" value="${optIndex}">
+                                ${option}
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                questionsContainer.appendChild(questionDiv);
+            });
+        });
+
+    quizForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const answers = [];
+        const questions = document.querySelectorAll('.question');
+        questions.forEach((question, index) => {
+            const selected = question.querySelector(`input[name="q${index}"]:checked`);
+            if (selected) {
+                answers.push(parseInt(selected.value));
+            }
+        });
+
+        // Submit answers to server
+        fetch('{{ url_for("modules.submit_quiz") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                module_id: {{ module.id }},
+                answers: answers
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                window.location.href = "{{ url_for('modules.index') }}";
+            }
+        });
+    });
+});
+</script>
+{% endblock %} 

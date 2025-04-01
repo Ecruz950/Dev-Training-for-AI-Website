@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Group Management{% endblock %}
+
+{% block header %}Group Management{% endblock %}
+
+{% block content %}
+<div class="group-management-container">
+    {% if current_user.is_group_admin %}
+        <div class="create-group-section">
+            <h2>Create New Group</h2>
+            <form action="{{ url_for('main.create_group') }}" method="POST" class="create-group-form">
+                <div class="form-group">
+                    <label for="name">Group Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Group</button>
+            </form>
+        </div>
+    {% endif %}
+    
+    <div class="groups-section">
+        <h2>Your Groups</h2>
+        {% if groups %}
+            {% for group in groups %}
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3>{{ group.name }}</h3>
+                        <span class="group-admin">Admin: {{ group.admin.username }}</span>
+                    </div>
+                    
+                    {% if group.description %}
+                        <p class="group-description">{{ group.description }}</p>
+                    {% endif %}
+                    
+                    <div class="group-members">
+                        <h4>Members</h4>
+                        <ul>
+                            {% for member in group.members %}
+                                <li>
+                                    {{ member.username }}
+                                    {% if member.id != group.admin_id and (current_user.is_admin or current_user.id == group.admin_id) %}
+                                        <a href="{{ url_for('main.remove_group_member', group_id=group.id, user_id=member.id) }}" 
+                                           class="btn btn-danger btn-sm"
+                                           onclick="return confirm('Are you sure you want to remove this member?')">
+                                            Remove
+                                        </a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    {% if current_user.is_admin or current_user.id == group.admin_id %}
+                        <div class="invite-section">
+                            <h4>Invite Member</h4>
+                            <form action="{{ url_for('main.invite_to_group', group_id=group.id) }}" method="POST" class="invite-form">
+                                <div class="form-group">
+                                    <input type="text" name="username" placeholder="Enter username" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send Invitation</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-groups">You are not managing any groups.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block header %}Notifications{% endblock %}
+
+{% block content %}
+<div class="notifications-container">
+    {% if notifications %}
+        {% for notification in notifications %}
+            <div class="notification-item {% if not notification.read %}unread{% endif %}">
+                <div class="notification-content">
+                    <p>{{ notification.content }}</p>
+                    <small>{{ notification.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+                
+                {% if not notification.read %}
+                    <a href="{{ url_for('auth.mark_notification_read', notification_id=notification.id) }}" class="btn btn-secondary">Mark as Read</a>
+                {% endif %}
+                
+                {% if notification.type == 'group_invite' %}
+                    <div class="notification-actions">
+                        <a href="{{ url_for('auth.accept_invite', notification_id=notification.id) }}" class="btn btn-success">Accept</a>
+                        <a href="{{ url_for('auth.reject_invite', notification_id=notification.id) }}" class="btn btn-danger">Reject</a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-notifications">
+            <p>You have no notifications.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 
