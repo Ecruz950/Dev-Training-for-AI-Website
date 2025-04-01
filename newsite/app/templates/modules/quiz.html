@@ -43,6 +43,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 questionsContainer.appendChild(questionDiv);
             });
+        })
+        .catch(error => {
+            console.error('Error loading quiz:', error);
+            questionsContainer.innerHTML = '<p class="error">Error loading quiz questions. Please try again later.</p>';
         });
 
     quizForm.addEventListener('submit', function(e) {
@@ -54,8 +58,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const selected = question.querySelector(`input[name="q${index}"]:checked`);
             if (selected) {
                 answers.push(parseInt(selected.value));
+            } else {
+                answers.push(null); // No answer selected
             }
         });
+
+        // Check if all questions are answered
+        if (answers.includes(null)) {
+            alert('Please answer all questions before submitting.');
+            return;
+        }
 
         // Submit answers to server
         fetch('{{ url_for("modules.submit_quiz") }}', {
@@ -71,8 +83,15 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
+                alert(`Quiz completed! Your score: ${data.score}%`);
                 window.location.href = "{{ url_for('modules.index') }}";
+            } else {
+                alert('Error submitting quiz. Please try again.');
             }
+        })
+        .catch(error => {
+            console.error('Error submitting quiz:', error);
+            alert('Error submitting quiz. Please try again.');
         });
     });
 });

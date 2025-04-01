@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Groups{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1>Group Management</h1>
+    <p>Manage all groups in the system.</p>
+    
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Admin</th>
+                    <th>Members</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for group in groups %}
+                <tr>
+                    <td>{{ group.id }}</td>
+                    <td>{{ group.name }}</td>
+                    <td>{{ group.description }}</td>
+                    <td>{{ group.admin.username if group.admin else 'None' }}</td>
+                    <td>{{ group.members|length }}</td>
+                    <td>{{ group.created_at.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="actions">
+        <a href="{{ url_for('admin.index') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %} 
