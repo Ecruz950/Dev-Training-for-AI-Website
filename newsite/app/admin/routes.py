@@ -50,7 +50,8 @@ def groups():
 @admin_required
 def modules():
     modules = Module.query.all()
-    return render_template('admin/modules.html', modules=modules)
+    quizzes = Quiz.query.all()
+    return render_template('admin/modules.html', modules=modules, quizzes=quizzes)
 
 @bp.route('/quizzes')
 @admin_required

@@ -16,6 +16,7 @@
                     <th>Description</th>
                     <th>Order</th>
                     <th>Video</th>
+                    <th>Quiz Status</th>
                     <th>Created</th>
                 </tr>
             </thead>
@@ -26,7 +27,15 @@
                     <td>{{ module.title }}</td>
                     <td>{{ module.description }}</td>
                     <td>{{ module.order }}</td>
-                    <td>{% if module.video_url %}Yes{% else %}No{% endif %}</td>
+                    <td>{% if module.video_path %}Yes{% else %}No{% endif %}</td>
+                    <td>
+                        {% set quiz = quizzes|selectattr('module_id', 'equalto', module.id)|first %}
+                        {% if quiz %}
+                            <span class="badge badge-success">Available</span>
+                        {% else %}
+                            <span class="badge badge-danger">Not Available</span>
+                        {% endif %}
+                    </td>
                     <td>{{ module.created_at.strftime('%Y-%m-%d') }}</td>
                 </tr>
                 {% endfor %}
