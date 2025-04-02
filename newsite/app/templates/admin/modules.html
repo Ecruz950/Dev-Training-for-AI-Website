@@ -15,9 +15,10 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Order</th>
-                    <th>Video</th>
+                    <th>Media</th>
                     <th>Quiz Status</th>
                     <th>Created</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,9 +26,15 @@
                 <tr>
                     <td>{{ module.id }}</td>
                     <td>{{ module.title }}</td>
-                    <td>{{ module.description }}</td>
+                    <td>{{ module.description|truncate(50) }}</td>
                     <td>{{ module.order }}</td>
-                    <td>{% if module.video_path %}Yes{% else %}No{% endif %}</td>
+                    <td>
+                        {% if module.video_path %}
+                            <span class="badge badge-success">Video</span>
+                        {% else %}
+                            <span class="badge badge-danger">No Video</span>
+                        {% endif %}
+                    </td>
                     <td>
                         {% set quiz = quizzes|selectattr('module_id', 'equalto', module.id)|first %}
                         {% if quiz %}
@@ -37,6 +44,9 @@
                         {% endif %}
                     </td>
                     <td>{{ module.created_at.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        <a href="{{ url_for('modules.video', module_id=module.id) }}" class="btn btn-sm btn-secondary">View</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

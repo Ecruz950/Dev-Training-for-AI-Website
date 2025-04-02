@@ -1,132 +1,114 @@
 # AI Training Platform
 
-A comprehensive training platform built with Flask, designed to deliver interactive learning experiences focused on AI and development topics. The platform features a modular learning system, interactive quizzes, and an administrative dashboard for content management.
+A comprehensive web-based platform for AI training, featuring modules, quizzes, and group-based learning.
 
 ## Features
 
-- User authentication and authorization
-- Group-based access control
-- Interactive learning modules
-- Quiz system with multiple choice questions
-- Progress tracking
-- Real-time notifications
-- Admin dashboard for content management
-- Group management system
+- **Authentication System**: User registration, login, profile management
+- **Admin Dashboard**: User management, group creation, and progress tracking
+- **Group Management**: Create groups, add members, and manage group admins
+- **Module System**: Educational modules with video content and detailed descriptions
+- **Quiz System**: Interactive quizzes with multiple-choice questions and detailed feedback
+- **Progress Tracking**: Track module completion and quiz performance
+- **Responsive Design**: Mobile-friendly interface
 
 ## Prerequisites
 
-- Python 3.13 or higher
-- PostgreSQL 17
-- pip (Python package manager)
+- Python 3.8+
+- Flask and extensions
+- SQLite (default) or MySQL/PostgreSQL
 
 ## Installation
 
 1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/Dev-Training-for-AI-Website.git
-cd Dev-Training-for-AI-Website/newsite
-```
+   ```
+   git clone https://github.com/yourusername/ai-training-platform.git
+   cd ai-training-platform
+   ```
 
-2. Create and activate a virtual environment (recommended):
-```bash
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Unix or MacOS:
-source venv/bin/activate
-```
+2. Create a virtual environment:
+   ```
+   python -m venv venv
+   source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+   ```
 
-3. Install the required packages:
-```bash
-pip install -r requirements.txt
-```
+3. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
-4. Set up environment variables:
-Create a `.env` file in the project root with the following content:
-```
-FLASK_APP=wsgi.py
-FLASK_ENV=development
-SECRET_KEY=your-secret-key-here
-DATABASE_URL=postgresql://postgres:your-password@localhost:5432/training_platform
-```
+4. Initialize the database:
+   ```
+   cd newsite
+   python scripts/create_admin.py
+   python scripts/import_modules.py
+   python scripts/create_quiz.py
+   python scripts/create_quiz_questions.py
+   ```
 
-5. Create the database:
-```bash
-# Start PostgreSQL service
-# On Windows (as Administrator):
-net start postgresql-x64-17
-```
+5. Start the application:
+   ```
+   python wsgi.py
+   ```
 
-6. Initialize the database and create admin user:
-```bash
-python create_admin.py
-```
-
-## Running the Application
-
-1. Start the Flask development server:
-```bash
-# On Windows:
-$env:FLASK_APP = "wsgi.py"
-python -m flask run
-
-# On Unix or MacOS:
-export FLASK_APP=wsgi.py
-flask run
-```
-
-2. Access the application:
-Open your web browser and navigate to `http://localhost:5000`
-
-## Default Admin Account
-
-After running `create_admin.py`, you can log in with:
-- Username: admin
-- Password: admin123
-
-## Testing
-
-1. Database Testing:
-```bash
-# The database will be automatically initialized when you run create_admin.py
-python create_admin.py
-```
-
-2. User Interface Testing:
-- Log in with the admin account
-- Create a new group
-- Add users to the group
-- Create a module
-- Create a quiz
-- Test the notification system
+6. Access the application:
+   Open your browser and go to `http://localhost:5000`
 
 ## Project Structure
 
 ```
 newsite/
-├── app/
-│   ├── admin/         # Admin dashboard routes and templates
-│   ├── auth/          # Authentication routes and templates
-│   ├── modules/       # Learning module routes and templates
-│   ├── quizzes/       # Quiz system routes and templates
-│   ├── static/        # Static files (CSS, JS, images)
-│   ├── templates/     # Base templates
-│   ├── models.py      # Database models
-│   └── __init__.py    # Application factory
-├── .env               # Environment variables
-├── requirements.txt   # Python dependencies
-├── create_admin.py    # Admin user creation script
-└── wsgi.py           # Application entry point
+├── app/                  # Application package
+│   ├── admin/            # Admin blueprint
+│   ├── auth/             # Authentication blueprint
+│   ├── main/             # Main blueprint
+│   ├── modules/          # Modules blueprint
+│   ├── static/           # Static files
+│   ├── templates/        # Templates
+│   ├── models.py         # Database models
+│   └── __init__.py       # App factory
+├── scripts/              # Utility scripts
+├── instance/             # Instance-specific files
+│   └── app.db            # SQLite database
+├── TECHNICAL_OVERVIEW.md # Technical documentation
+└── wsgi.py               # WSGI entry point
 ```
+
+## Default Accounts
+
+- Admin: `admin` / `admin123`
+
+## Development
+
+To run the application in development mode:
+
+```
+cd newsite
+python wsgi.py
+```
+
+## Testing
+
+Run tests using pytest:
+
+```
+pytest
+```
+
+## Documentation
+
+- See `TECHNICAL_OVERVIEW.md` for detailed technical documentation
+- See `app/README.md` for application directory structure
+- See `scripts/README.md` for utility scripts documentation
+
+## License
+
+MIT
 
 ## Contributing
 
 1. Fork the repository
-2. Create a new branch for your feature
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
+2. Create a new branch (`git checkout -b feature-branch`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature-branch`)
+5. Create a new Pull Request 

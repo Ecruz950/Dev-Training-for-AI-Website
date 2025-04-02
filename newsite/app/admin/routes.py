@@ -38,7 +38,8 @@ def index():
 @admin_required
 def users():
     users = User.query.all()
-    return render_template('admin/users.html', users=users)
+    modules = Module.query.all()
+    return render_template('admin/users.html', users=users, modules=modules)
 
 @bp.route('/groups')
 @admin_required
@@ -57,4 +58,5 @@ def modules():
 @admin_required
 def quizzes():
     quizzes = Quiz.query.all()
-    return render_template('admin/quizzes.html', quizzes=quizzes)
+    modules = Module.query.all()
+    return render_template('admin/quizzes.html', quizzes=quizzes, modules=modules)

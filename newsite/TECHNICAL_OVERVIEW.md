@@ -10,6 +10,7 @@ This is a comprehensive training platform built with Flask, designed to deliver 
 - **Forms**: Flask-WTF
 - **Frontend**: Bootstrap 5, Custom CSS/JavaScript
 - **Template Engine**: Jinja2
+- **Media Handling**: Flask's send_from_directory for video content
 
 ## Core Features
 
@@ -17,138 +18,238 @@ This is a comprehensive training platform built with Flask, designed to deliver 
 - **Authentication**
   - User registration with email verification
   - Secure login system with "Remember Me" functionality
-  - Password reset via email
+  - Password reset functionality
   - Session management
 - **User Roles**
   - Admin users with full system access
+  - Group admin users with group management capabilities
   - Regular users with learning access
-  - Group-based access control
+  - Role-based UI elements
 - **Group Management**
   - Group creation and management
+  - Email-based group invitations
   - Group member management
-  - Group-based content access control
+  - Group-based progress tracking
   - Group admin role with limited administrative privileges
 
 ### 2. Learning Management System
 - **Module Structure**
-  - Hierarchical organization of content
-  - Sections within modules
+  - Video-based learning content
   - Progress tracking per module
   - Completion status monitoring
+  - Visual progress indicators
 - **Content Types**
+  - Video content (MP4)
+  - Interactive quizzes
   - Text-based content
-  - Interactive sections
-  - File attachments
-  - External resources
+  - Visual feedback systems
 
 ### 3. Quiz System
 - **Quiz Features**
-  - Multiple choice questions
-  - Time-limited assessments
-  - Passing score requirements
-  - Immediate feedback
-  - Progress tracking
+  - Multiple choice questions with immediate feedback
+  - Real-time correct/incorrect indicators
+  - Interactive completion system
+  - Detailed explanations for both correct and incorrect answers
+  - Progress tracking with visual indicators
 - **Quiz Management**
-  - Dynamic question ordering
-  - Multiple correct answers support
-  - Option reordering
-  - Quiz attempt history
+  - JSON-based question data
+  - Question importing system
+  - Database persistence for quiz attempts
+  - 100% completion requirement
 
 ### 4. Admin Dashboard
 - **Content Management**
   - Module creation and editing
-  - Section management
-  - Quiz creation and management
+  - Module progress tracking across users
+  - Quiz management
   - Question and answer management
 - **User Management**
   - User role assignment
   - User progress monitoring
   - Group management
-  - User deletion capabilities
+  - Detailed progress visualization
 
 ### 5. Progress Tracking
 - **User Progress**
   - Module completion status
-  - Quiz attempt history
-  - Overall progress tracking
-  - Achievement system
+  - Quiz completion status
+  - Visual progress indicators
+  - Admin monitoring capabilities
 - **Analytics**
   - User engagement metrics
-  - Quiz performance statistics
   - Module completion rates
+  - Group-based progress tracking
 
 ### 6. Notification System
 - **In-App Notifications**
-  - Real-time notifications for new content
-  - Quiz completion notifications
-  - Group updates and announcements
-  - System notifications
+  - Group invitations
+  - Acceptance/rejection functionality
+  - Notification counter in navigation
+  - Notification management
 - **Notification Management**
   - Mark as read/unread functionality
-  - Notification preferences
+  - Accept/reject interface for invitations
   - Notification history
-  - Priority-based notifications
 
 ## Technical Implementation Details
 
 ### Database Schema
 - **User Model**
-  - Authentication fields
-  - Profile information
-  - Role management
-  - Progress tracking
+  - Authentication fields (username, email, password_hash)
+  - Role management fields (is_admin, is_group_admin)
+  - Relationship to groups and notifications
+  - Preferences fields
 - **Group Model**
-  - Group information
-  - Member relationships
-  - Group admin assignment
-  - Access control settings
+  - Group information (name, description)
+  - Member relationships (many-to-many with users)
+  - Admin relationship (one-to-many with users)
+  - Creation timestamp
 - **Module Model**
-  - Content structure
-  - Section relationships
-  - Status management
+  - Content structure (title, description)
+  - Video path for media content
+  - Order field for sequencing
+  - Relationship to progress records
 - **Quiz Model**
-  - Question management
-  - Answer options
-  - Scoring system
-- **Progress Model**
-  - User completion tracking
-  - Quiz attempt records
-  - Achievement tracking
+  - Relationship to module (one-to-one)
+  - Questions relationship (one-to-many)
+  - Passing score configuration
+  - Relationship to attempts
+- **ModuleProgress Model**
+  - User and module relationships
+  - Video completion tracking
+  - Quiz completion tracking
+  - Timestamp fields for tracking
+- **Question Model**
+  - Relationship to quiz
+  - Question text and order
+  - Options relationship (one-to-many)
+- **Option Model**
+  - Relationship to question
+  - Text content and correctness flag
+  - Order field for display sequence
 - **Notification Model**
-  - Notification content
-  - User associations
-  - Read status
-  - Timestamp tracking
+  - User relationship (target user)
+  - Type field for notification categorization
+  - Content field for notification text
+  - Data field (JSON) for additional information
+  - Read status tracking
 
 ### Security Features
 - Password hashing with Werkzeug
-- CSRF protection
-- Session management
+- CSRF protection with Flask-WTF
+- Session management with Flask-Login
 - Role-based access control
 - Group-based permissions
+- Route protection with decorators
 
 ### Frontend Implementation
 - **Responsive Design**
   - Mobile-first approach
-  - Bootstrap 5 framework
+  - Sidebar navigation with hover effect
   - Custom CSS for enhanced UI
+  - Consistent color scheme and styling
 - **Interactive Features**
-  - Dynamic form validation
-  - Real-time progress updates
-  - Quiz interaction
-  - Alert system
+  - Real-time quiz feedback
+  - Dynamic progress indicators
+  - Interactive completion system
+  - Flash message system
 - **User Experience**
   - Intuitive navigation
-  - Progress indicators
-  - Responsive feedback
-  - Smooth animations
+  - Clear visual feedback
+  - Consistent styling across pages
+  - Animated transitions
 
-### Email System
-- Password reset functionality
-- Welcome emails
-- Progress notifications
-- Course updates
-- Admin notifications
+### Media Handling
+- Video content served through Flask routes
+- Static file organization for media content
+- Video playback with HTML5 video elements
+- Proper MIME type handling
+
+## Development Tools and Scripts
+
+### Utility Scripts
+- `create_admin.py` - Creates and manages the admin user
+- `create_quiz.py` - Sets up quiz records in the database
+- `create_quiz_questions.py` - Imports questions from JSON to database
+- `create_progress.py` - Manages progress records
+- `check_module_data.py` - Validates and fixes module paths
+- `update_quiz.py` - Updates quiz configuration
+- `import_modules.py` - Imports module data
+
+### Code Organization
+```
+newsite/
+├── app/
+│   ├── admin/         # Admin routes and templates
+│   ├── auth/          # Authentication routes and templates
+│   ├── main/          # Main application routes
+│   ├── modules/       # Module routes and templates
+│   ├── static/        # Static files
+│   │   ├── css/       # Stylesheets
+│   │   ├── modules/   # Module videos
+│   │   └── quizzes/   # Quiz JSON data
+│   ├── templates/     # HTML templates
+│   │   ├── admin/     # Admin templates
+│   │   ├── auth/      # Auth templates
+│   │   ├── main/      # Main app templates
+│   │   └── modules/   # Module templates
+│   ├── models.py      # Database models
+│   └── __init__.py    # Application factory
+├── utility scripts    # Various helper scripts
+├── config.py          # Configuration settings
+└── wsgi.py            # Application entry point
+```
+
+### Best Practices
+- Modular Blueprint-based organization
+- Reusable Jinja2 templates with inheritance
+- CSS organization with variables and consistent classes
+- Clear separation of concerns
+- Error handling with flash messages
+- Namespace usage in templates for variable scoping
+
+## Deployment Considerations
+- Environment variable management
+- Static file configuration
+- Video content optimization
+- Error logging and handling
+- Performance considerations for video delivery
+- Database indexing for performance
+
+## Recent Updates
+
+### Feature Enhancements
+- **Improved Group Management**
+  - Email-based invitations replacing username lookup
+  - Enhanced group member progress tracking
+  - Better visualization of group member progress
+- **Enhanced Quiz System**
+  - Interactive feedback system with explanations
+  - Improved quiz completion UI
+  - Real-time progress tracking
+  - Styled completion button with visual feedback
+- **Admin Interface Improvements**
+  - Better table formatting and spacing
+  - Enhanced progress visualization
+  - Module/quiz status indicators
+  - Consistent styling across admin pages
+- **UI/UX Improvements**
+  - Responsive sidebar with improved hover effect
+  - Flash message system for user feedback
+  - Better form styling and layout
+  - Consistent color scheme and visual design
+- **Module Progress Tracking**
+  - Visual indicators for module completion
+  - User-specific progress tracking
+  - Admin-viewable progress statistics
+
+### Technical Updates
+- Fixed module video path handling
+- Enhanced database relationships for progress tracking
+- Improved Jinja2 template variable scoping
+- Reorganized CSS for better maintainability
+- Added utility scripts for database management
+- Fixed quiz question import system
 
 ## Development Guidelines
 

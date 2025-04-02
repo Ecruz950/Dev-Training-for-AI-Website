@@ -39,6 +39,15 @@
                         <i class="fas fa-user"></i>
                         <a href="{{ url_for('main.profile') }}">Profile</a>
                     </li>
+                    <li class="{{ 'active' if request.endpoint == 'auth.notifications' }}">
+                        <i class="fas fa-bell"></i>
+                        <a href="{{ url_for('auth.notifications') }}">
+                            Notifications
+                            {% if current_user.notifications|selectattr('read', 'equalto', false)|list|length > 0 %}
+                                <span class="notification-badge">{{ current_user.notifications|selectattr('read', 'equalto', false)|list|length }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
                     <li class="{{ 'active' if request.endpoint.startswith('modules.') }}">
                         <i class="fas fa-book"></i>
                         <a href="{{ url_for('modules.index') }}">Modules</a>

@@ -17,7 +17,10 @@
             <p id="loading-indicator">Loading quiz questions...</p>
         </div>
         <div class="quiz-navigation">
-            <button id="complete-quiz" class="btn btn-success" disabled>Complete Quiz</button>
+            <button id="complete-quiz" class="btn btn-success complete-quiz-btn" disabled>
+                <span class="complete-icon"><i class="fas fa-check-circle"></i></span>
+                <span class="complete-text">Complete Quiz</span>
+            </button>
         </div>
     </div>
     <div class="module-navigation">
@@ -202,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #666;
 }
 .quiz-navigation {
-    margin-top: 20px;
+    margin-top: 30px;
     text-align: center;
 }
 #quiz-progress {
@@ -224,6 +227,39 @@ document.addEventListener('DOMContentLoaded', function() {
     text-align: center;
     margin-top: 5px;
     font-weight: bold;
+}
+
+.complete-quiz-btn {
+    padding: 12px 24px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right, #28a745, #20c997);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.complete-quiz-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(to right, #218838, #1b9e7c);
+}
+
+.complete-quiz-btn:disabled {
+    background: linear-gradient(to right, #6c757d, #868e96);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.complete-icon {
+    font-size: 1.2em;
 }
 </style>
 {% endblock %} 

@@ -25,7 +25,10 @@ def group_management():
     else:
         groups = Group.query.filter_by(admin_id=current_user.id).all()
         
-    return render_template('main/group_management.html', groups=groups)
+    # Get all modules for progress display
+    modules = Module.query.order_by(Module.order).all()
+        
+    return render_template('main/group_management.html', groups=groups, modules=modules)
 
 @bp.route('/group/create', methods=['POST'])
 @login_required
@@ -65,11 +68,11 @@ def invite_to_group(group_id):
         flash('You do not have permission to invite users to this group.', 'error')
         return redirect(url_for('main.group_management'))
         
-    username = request.form.get('username')
-    user = User.query.filter_by(username=username).first()
+    email = request.form.get('email')
+    user = User.query.filter_by(email=email).first()
     
     if not user:
-        flash('User not found.', 'error')
+        flash(f'No user found with email: {email}', 'error')
         return redirect(url_for('main.group_management'))
         
     if user in group.members:
@@ -79,13 +82,14 @@ def invite_to_group(group_id):
     # Check for existing invitation
     existing_notification = Notification.query.filter(
         Notification.user_id == user.id,
-        Notification.type == 'group_invite',
-        Notification.data['group_id'].astext.cast(db.Integer) == group_id
+        Notification.type == 'group_invite'
     ).first()
     
-    if existing_notification:
-        flash('User already has a pending invitation.', 'error')
-        return redirect(url_for('main.group_management'))
+    # Only check data field if notification exists
+    if existing_notification and existing_notification.data and 'group_id' in existing_notification.data:
+        if int(existing_notification.data['group_id']) == group_id:
+            flash('User already has a pending invitation.', 'error')
+            return redirect(url_for('main.group_management'))
         
     # Create invitation notification
     notification = Notification(
@@ -97,7 +101,7 @@ def invite_to_group(group_id):
     db.session.add(notification)
     db.session.commit()
     
-    flash('Invitation sent successfully.', 'success')
+    flash(f'Invitation sent successfully to {email}.', 'success')
     return redirect(url_for('main.group_management'))
 
 @bp.route('/group/<int:group_id>/remove-member/<int:user_id>')

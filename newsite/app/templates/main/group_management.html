@@ -39,20 +39,61 @@
                     
                     <div class="group-members">
                         <h4>Members</h4>
-                        <ul>
-                            {% for member in group.members %}
-                                <li>
-                                    {{ member.username }}
-                                    {% if member.id != group.admin_id and (current_user.is_admin or current_user.id == group.admin_id) %}
-                                        <a href="{{ url_for('main.remove_group_member', group_id=group.id, user_id=member.id) }}" 
-                                           class="btn btn-danger btn-sm"
-                                           onclick="return confirm('Are you sure you want to remove this member?')">
-                                            Remove
-                                        </a>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
+                        <table class="members-table">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Module Progress</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member in group.members %}
+                                <tr>
+                                    <td class="member-detail">
+                                        <span class="member-username">{{ member.username }}</span>
+                                        <span class="member-email">{{ member.email }}</span>
+                                    </td>
+                                    <td>
+                                        {% set progress_count = 0 %}
+                                        {% for module in modules %}
+                                            {% set user_progress = module.progress|selectattr('user_id', 'equalto', member.id)|first %}
+                                            {% if user_progress and user_progress.quiz_completed %}
+                                                {% set progress_count = progress_count + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        
+                                        <div class="user-progress-summary">
+                                            <div class="progress-stat">
+                                                <span class="progress-number">{{ progress_count }}/{{ modules|length }}</span>
+                                                <span class="progress-label">modules completed</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="module-progress-indicator">
+                                            {% for module in modules %}
+                                                {% set user_progress = module.progress|selectattr('user_id', 'equalto', member.id)|first %}
+                                                {% if user_progress and user_progress.quiz_completed %}
+                                                    <span class="module-progress-mini completed">M{{ module.id }}</span>
+                                                {% else %}
+                                                    <span class="module-progress-mini incomplete">M{{ module.id }}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if member.id != group.admin_id and (current_user.is_admin or current_user.id == group.admin_id) %}
+                                            <a href="{{ url_for('main.remove_group_member', group_id=group.id, user_id=member.id) }}" 
+                                               class="btn btn-danger btn-sm"
+                                               onclick="return confirm('Are you sure you want to remove this member?')">
+                                                Remove
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                     
                     {% if current_user.is_admin or current_user.id == group.admin_id %}
@@ -60,7 +101,7 @@
                             <h4>Invite Member</h4>
                             <form action="{{ url_for('main.invite_to_group', group_id=group.id) }}" method="POST" class="invite-form">
                                 <div class="form-group">
-                                    <input type="text" name="username" placeholder="Enter username" required>
+                                    <input type="email" name="email" placeholder="Enter user's email" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Send Invitation</button>
                             </form>
@@ -73,4 +114,142 @@
         {% endif %}
     </div>
 </div>
+
+<style>
+.group-management-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.create-group-section {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.create-group-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.create-group-form .form-group {
+    margin-bottom: 15px;
+}
+
+.create-group-form input,
+.create-group-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.create-group-form button {
+    width: auto;
+    margin-top: 10px;
+}
+
+.group-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 25px;
+}
+
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.group-admin {
+    font-size: 0.9em;
+    color: var(--dark-gray);
+}
+
+.group-description {
+    margin-bottom: 20px;
+    color: var(--dark-gray);
+}
+
+.group-members {
+    margin-bottom: 20px;
+}
+
+.group-members h4 {
+    margin-bottom: 15px;
+}
+
+.invite-section {
+    padding-top: 20px;
+    border-top: 1px solid var(--light-gray);
+}
+
+.invite-form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    max-width: 500px;
+}
+
+.invite-form .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.members-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+    border: 1px solid var(--light-gray);
+    border-radius: 4px;
+}
+
+.members-table th,
+.members-table td {
+    padding: 10px 15px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.members-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.members-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.members-table tr:not(:last-child) td {
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.member-email {
+    font-size: 0.8em;
+    color: var(--dark-gray);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .invite-form {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .invite-form button {
+        width: 100%;
+    }
+}
+</style>
 {% endblock %} 
