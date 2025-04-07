@@ -3,13 +3,13 @@ from app.models import Quiz, Question, Option
 import json
 import os
 
-def create_quiz():
-    """Create quiz for module 2"""
+def create_quiz(module_id):
+    """Create quiz for specified module"""
     app = create_app()
     
     with app.app_context():
-        # Delete all quizzes for module 2
-        quizzes = Quiz.query.filter_by(module_id=2).all()
+        # Delete all quizzes for the specified module
+        quizzes = Quiz.query.filter_by(module_id=module_id).all()
         for quiz in quizzes:
             # Delete all options and questions first
             for question in quiz.questions:
@@ -18,21 +18,33 @@ def create_quiz():
                 db.session.delete(question)
             db.session.delete(quiz)
         db.session.commit()
-        print("Existing quizzes for module 2 deleted")
+        print(f"Existing quizzes for module {module_id} deleted")
+        
+        # Quiz titles and descriptions
+        quiz_info = {
+            1: {
+                "title": "Introduction to LLMs and Responsible Use Quiz",
+                "description": "Test your knowledge of LLMs and responsible AI use"
+            },
+            2: {
+                "title": "Developer Tips for using AI Quiz",
+                "description": "Test your knowledge of AI development best practices"
+            }
+        }
         
         # Create the quiz with explicit ID
         quiz = Quiz(
-            id=2,  # Explicitly set the ID
-            module_id=2,
-            title="Developer Tips for using AI Quiz",
-            description="Test your knowledge of AI development best practices",
+            id=module_id,  # Explicitly set the ID
+            module_id=module_id,
+            title=quiz_info[module_id]["title"],
+            description=quiz_info[module_id]["description"],
             passing_score=70
         )
         db.session.add(quiz)
         db.session.commit()
         
         # Add questions from the JSON file
-        quiz_path = os.path.join(app.static_folder, 'quizzes', '2_quiz.json')
+        quiz_path = os.path.join(app.static_folder, 'quizzes', f'{module_id}_quiz.json')
         if os.path.exists(quiz_path):
             with open(quiz_path, 'r', encoding='utf-8') as f:
                 quiz_data = json.load(f)
@@ -56,9 +68,11 @@ def create_quiz():
                     db.session.add(option)
             
             db.session.commit()
-            print(f"Quiz for module 2 created successfully with ID: {quiz.id}")
+            print(f"Quiz for module {module_id} created successfully with ID: {quiz.id}")
         else:
             print(f"Quiz JSON file not found at {quiz_path}")
 
 if __name__ == '__main__':
-    create_quiz() 
+    # Create quizzes for both modules
+    create_quiz(1)
+    create_quiz(2) 

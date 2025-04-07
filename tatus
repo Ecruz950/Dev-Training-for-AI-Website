@@ -1,0 +1,72 @@
+[1mdiff --git a/newsite/.env b/newsite/.env[m
+[1mindex 8be902d..a114a3a 100644[m
+[1m--- a/newsite/.env[m
+[1m+++ b/newsite/.env[m
+[36m@@ -1,16 +1,7 @@[m
+ # Flask[m
+ FLASK_APP=wsgi.py[m
+[31m-FLASK_ENV=development[m
+[31m-SECRET_KEY=your-secret-key-here[m
+[32m+[m[32mFLASK_ENV=production[m
+[32m+[m[32mSECRET_KEY=57a8b5f276ec8c07c3ce3754dfe47e14b9126612f30c592cb8ca2c6f25aabd8e[m
+ [m
+ # Database[m
+[31m-DATABASE_URL=postgresql://postgres:GuidanceTeam!@localhost:5432/training_platform[m
+[31m-[m
+[31m-# Mail[m
+[31m-MAIL_SERVER=smtp.gmail.com[m
+[31m-MAIL_PORT=587[m
+[31m-MAIL_USE_TLS=True[m
+[31m-MAIL_USERNAME=your-email@gmail.com[m
+[31m-MAIL_PASSWORD=your-app-specific-password[m
+[31m-MAIL_DEFAULT_SENDER=your-email@gmail.com[m
+[31m-ADMIN_EMAIL=admin@example.com [m
+\ No newline at end of file[m
+[32m+[m[32mDATABASE_URL=postgresql://t3admin:GuidanceTeam!@newdb.cwc1h96u7rjv.us-east-2.rds.amazonaws.com:5432/postgres[m
+[1mdiff --git a/newsite/__pycache__/wsgi.cpython-312.pyc b/newsite/__pycache__/wsgi.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..afb4e77[m
+Binary files /dev/null and b/newsite/__pycache__/wsgi.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/__pycache__/__init__.cpython-312.pyc b/newsite/app/__pycache__/__init__.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..2504bb1[m
+Binary files /dev/null and b/newsite/app/__pycache__/__init__.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/__pycache__/models.cpython-312.pyc b/newsite/app/__pycache__/models.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1604377[m
+Binary files /dev/null and b/newsite/app/__pycache__/models.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/admin/__pycache__/__init__.cpython-312.pyc b/newsite/app/admin/__pycache__/__init__.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..991caca[m
+Binary files /dev/null and b/newsite/app/admin/__pycache__/__init__.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/admin/__pycache__/routes.cpython-312.pyc b/newsite/app/admin/__pycache__/routes.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..17ad585[m
+Binary files /dev/null and b/newsite/app/admin/__pycache__/routes.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/auth/__pycache__/__init__.cpython-312.pyc b/newsite/app/auth/__pycache__/__init__.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..43306f9[m
+Binary files /dev/null and b/newsite/app/auth/__pycache__/__init__.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/auth/__pycache__/forms.cpython-312.pyc b/newsite/app/auth/__pycache__/forms.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..5dfc1a0[m
+Binary files /dev/null and b/newsite/app/auth/__pycache__/forms.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/auth/__pycache__/routes.cpython-312.pyc b/newsite/app/auth/__pycache__/routes.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..0826f3f[m
+Binary files /dev/null and b/newsite/app/auth/__pycache__/routes.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/main/__pycache__/__init__.cpython-312.pyc b/newsite/app/main/__pycache__/__init__.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4284b93[m
+Binary files /dev/null and b/newsite/app/main/__pycache__/__init__.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/main/__pycache__/routes.cpython-312.pyc b/newsite/app/main/__pycache__/routes.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d72e52e[m
+Binary files /dev/null and b/newsite/app/main/__pycache__/routes.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/modules/__pycache__/__init__.cpython-312.pyc b/newsite/app/modules/__pycache__/__init__.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..52bdc7c[m
+Binary files /dev/null and b/newsite/app/modules/__pycache__/__init__.cpython-312.pyc differ
+[1mdiff --git a/newsite/app/modules/__pycache__/routes.cpython-312.pyc b/newsite/app/modules/__pycache__/routes.cpython-312.pyc[m
+[1mnew file mode 100644[m
+[
