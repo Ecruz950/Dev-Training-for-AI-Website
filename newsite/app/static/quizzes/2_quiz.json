@@ -1,0 +1,113 @@
+{
+    "title": "Module 2 Quiz",
+    "module_id": 2,
+    "passing_score": 100,
+    "questions": [
+      {
+        "id": 1,
+        "text": "T/F: LLMs can distinguish between its own output and the input given to it.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct_answer": 1,
+        "feedback": {
+          "correct": "Correct, they cannot inherently differentiate their own output from new input.",
+          "incorrect": "Incorrect, LLMs do not inherently track separate “labels” for input vs. output."
+        }
+      },
+      {
+        "id": 2,
+        "text": "LLMs will always provide properly structured code for the following formats:",
+        "options": [
+          "Proprietary Binary Configuration Files",
+          "JSON",
+          "XML",
+          "None of the Above"
+        ],
+        "correct_answer": 3,
+        "feedback": {
+          "correct": "Correct, no guarantee exists that code is always properly structured.",
+          "incorrect": "LLMs are not guaranteed to produce reliably structured code in this format."
+        }
+      },
+      {
+        "id": 3,
+        "text": "T/F: LLMs will always remember their original prompt in longer conversations.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct_answer": 1,
+        "feedback": {
+          "correct": "Correct, they may fail to retain the entire prompt over time.",
+          "incorrect": "Incorrect, context can be lost over lengthy interactions."
+        }
+      },
+      {
+        "id": 4,
+        "text": "T/F: LLMs do not preserve all the input data given to it in a \"conversation.\"",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct_answer": 0,
+        "feedback": {
+          "correct": "Correct, some input details may be discarded or summarized.",
+          "incorrect": "Incorrect, not all details are always preserved."
+        }
+      },
+      {
+        "id": 5,
+        "text": "T/F: LLMs treat its own output differently than the input into the LLM.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct_answer": 1,
+        "feedback": {
+          "correct": "Correct, it does not inherently process its own output differently.",
+          "incorrect": "Incorrect, the model often treats both similarly as text data."
+        }
+      },
+      {
+        "id": 6,
+        "text": "T/F: LLMs can struggle to return properly formatted JSON files on request.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct_answer": 0,
+        "feedback": {
+          "correct": "Correct, they sometimes introduce errors or omit brackets.",
+          "incorrect": "Incorrect, formatting issues frequently occur."
+        }
+      },
+      {
+        "id": 7,
+        "text": "T/F: It is possible for the original prompt to be lost in LLMs.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct_answer": 0,
+        "feedback": {
+          "correct": "Correct, prompts can get overwritten or truncated.",
+          "incorrect": "Incorrect, the model can lose context from earlier prompts."
+        }
+      },
+      {
+        "id": 8,
+        "text": "T/F: The developer should avoid using the same session for multiple different user sessions.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct_answer": 0,
+        "feedback": {
+          "correct": "Correct, reusing sessions can mix contexts and cause confusion.",
+          "incorrect": "Incorrect, it’s safer to separate sessions to avoid data bleed."
+        }
+      }
+    ]
+  } 
