@@ -12,11 +12,25 @@ A comprehensive web-based platform for AI training, featuring modules, quizzes, 
 - **Progress Tracking**: Track module completion and quiz performance
 - **Responsive Design**: Mobile-friendly interface
 
+## Current Modules
+
+1. **Introduction to LLMs and Responsible Use**
+   - Description: Learn about the common misconceptions of artificial intelligence, large language models, and generative models as well as some pointers on how to utilize such software for whatever task you need.
+   - Video: module1Video.mp4
+   - Quiz: 1_quiz.json
+
+2. **Developer Tips for using AI**
+   - Description: Learn about the common pitfalls and best practices when working with large language models
+   - Video: module2Video.mp4
+   - Quiz: 2_quiz.json
+
 ## Prerequisites
 
 - Python 3.8+
 - Flask and extensions
 - SQLite (default) or MySQL/PostgreSQL
+- Nginx (for production)
+- Systemd (for production)
 
 ## Installation
 
@@ -40,10 +54,8 @@ A comprehensive web-based platform for AI training, featuring modules, quizzes, 
 4. Initialize the database:
    ```
    cd newsite
-   python scripts/create_admin.py
-   python scripts/import_modules.py
-   python scripts/create_quiz.py
-   python scripts/create_quiz_questions.py
+   python setup_local_db.py
+   python create_quiz.py
    ```
 
 5. Start the application:
@@ -53,6 +65,39 @@ A comprehensive web-based platform for AI training, featuring modules, quizzes, 
 
 6. Access the application:
    Open your browser and go to `http://localhost:5000`
+
+## Production Deployment
+
+The application is designed to run on an EC2 instance with the following setup:
+
+- t2.micro instance with 2GB swap space
+- Nginx reverse proxy
+- Systemd service for Flask app management
+- PostgreSQL database
+
+### Production Requirements
+
+1. Environment Variables:
+   - Create `.env.production` with production settings
+   - Set `FLASK_ENV=production`
+   - Configure database URL
+   - Set secret key
+
+2. Nginx Configuration:
+   - Reverse proxy to Flask app
+   - Static file handling
+   - Proper caching headers
+   - SSL configuration (if using HTTPS)
+
+3. Systemd Service:
+   - Automatic startup
+   - Process management
+   - Log rotation
+
+4. File Permissions:
+   - Proper ownership for static files
+   - Secure upload directory
+   - Database access rights
 
 ## Project Structure
 
@@ -64,6 +109,8 @@ newsite/
 │   ├── main/             # Main blueprint
 │   ├── modules/          # Modules blueprint
 │   ├── static/           # Static files
+│   │   ├── modules/      # Module videos
+│   │   └── quizzes/      # Quiz JSON files
 │   ├── templates/        # Templates
 │   ├── models.py         # Database models
 │   └── __init__.py       # App factory
@@ -100,6 +147,7 @@ pytest
 - See `TECHNICAL_OVERVIEW.md` for detailed technical documentation
 - See `app/README.md` for application directory structure
 - See `scripts/README.md` for utility scripts documentation
+- See `deployment_guide.md` for production deployment instructions
 
 ## License
 

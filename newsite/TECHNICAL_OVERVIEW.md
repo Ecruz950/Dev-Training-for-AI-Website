@@ -11,6 +11,8 @@ This is a comprehensive training platform built with Flask, designed to deliver 
 - **Frontend**: Bootstrap 5, Custom CSS/JavaScript
 - **Template Engine**: Jinja2
 - **Media Handling**: Flask's send_from_directory for video content
+- **Production Server**: Nginx with systemd service management
+- **Hosting**: AWS EC2 t2.micro instance with 2GB swap space
 
 ## Core Features
 
@@ -38,6 +40,15 @@ This is a comprehensive training platform built with Flask, designed to deliver 
   - Progress tracking per module
   - Completion status monitoring
   - Visual progress indicators
+- **Current Modules**
+  1. **Introduction to LLMs and Responsible Use**
+     - Video content on AI misconceptions and usage
+     - Interactive quiz with detailed feedback
+     - Progress tracking for video and quiz completion
+  2. **Developer Tips for using AI**
+     - Video content on development best practices
+     - Interactive quiz with detailed feedback
+     - Progress tracking for video and quiz completion
 - **Content Types**
   - Video content (MP4)
   - Interactive quizzes
@@ -56,6 +67,9 @@ This is a comprehensive training platform built with Flask, designed to deliver 
   - Question importing system
   - Database persistence for quiz attempts
   - 100% completion requirement
+- **Current Quizzes**
+  1. Module 1 Quiz: Introduction to LLMs
+  2. Module 2 Quiz: Developer Tips
 
 ### 4. Admin Dashboard
 - **Content Management**
@@ -141,6 +155,9 @@ This is a comprehensive training platform built with Flask, designed to deliver 
 - Role-based access control
 - Group-based permissions
 - Route protection with decorators
+- Production environment configuration
+- Secure file permissions
+- Nginx security headers
 
 ### Frontend Implementation
 - **Responsive Design**
@@ -164,17 +181,42 @@ This is a comprehensive training platform built with Flask, designed to deliver 
 - Static file organization for media content
 - Video playback with HTML5 video elements
 - Proper MIME type handling
+- Nginx static file serving
+- Caching headers for static content
+
+## Production Deployment
+
+### Server Configuration
+- AWS EC2 t2.micro instance
+- 2GB swap space for memory management
+- Nginx reverse proxy configuration
+- Systemd service management
+- PostgreSQL database
+- Environment-specific settings
+
+### Performance Optimization
+- Static file caching
+- Nginx gzip compression
+- Database connection pooling
+- Memory management
+- Swap space utilization
+
+### Security Measures
+- Production environment variables
+- Secure file permissions
+- Nginx security headers
+- Database access controls
+- Regular backups
 
 ## Development Tools and Scripts
 
 ### Utility Scripts
-- `create_admin.py` - Creates and manages the admin user
+- `setup_local_db.py` - Initializes database and creates admin user
 - `create_quiz.py` - Sets up quiz records in the database
-- `create_quiz_questions.py` - Imports questions from JSON to database
+- `update_modules.py` - Updates module content and paths
 - `create_progress.py` - Manages progress records
 - `check_module_data.py` - Validates and fixes module paths
 - `update_quiz.py` - Updates quiz configuration
-- `import_modules.py` - Imports module data
 
 ### Code Organization
 ```
@@ -195,61 +237,19 @@ newsite/
 │   │   └── modules/   # Module templates
 │   ├── models.py      # Database models
 │   └── __init__.py    # Application factory
-├── utility scripts    # Various helper scripts
+├── scripts/           # Utility scripts
+├── instance/          # Instance-specific files
 ├── config.py          # Configuration settings
 └── wsgi.py            # Application entry point
 ```
 
-### Best Practices
-- Modular Blueprint-based organization
-- Reusable Jinja2 templates with inheritance
-- CSS organization with variables and consistent classes
-- Clear separation of concerns
-- Error handling with flash messages
-- Namespace usage in templates for variable scoping
-
-## Deployment Considerations
-- Environment variable management
-- Static file configuration
-- Video content optimization
-- Error logging and handling
-- Performance considerations for video delivery
-- Database indexing for performance
-
 ## Recent Updates
-
-### Feature Enhancements
-- **Improved Group Management**
-  - Email-based invitations replacing username lookup
-  - Enhanced group member progress tracking
-  - Better visualization of group member progress
-- **Enhanced Quiz System**
-  - Interactive feedback system with explanations
-  - Improved quiz completion UI
-  - Real-time progress tracking
-  - Styled completion button with visual feedback
-- **Admin Interface Improvements**
-  - Better table formatting and spacing
-  - Enhanced progress visualization
-  - Module/quiz status indicators
-  - Consistent styling across admin pages
-- **UI/UX Improvements**
-  - Responsive sidebar with improved hover effect
-  - Flash message system for user feedback
-  - Better form styling and layout
-  - Consistent color scheme and visual design
-- **Module Progress Tracking**
-  - Visual indicators for module completion
-  - User-specific progress tracking
-  - Admin-viewable progress statistics
-
-### Technical Updates
-- Fixed module video path handling
-- Enhanced database relationships for progress tracking
-- Improved Jinja2 template variable scoping
-- Reorganized CSS for better maintainability
-- Added utility scripts for database management
-- Fixed quiz question import system
+- Added Module 2: Developer Tips for using AI
+- Updated Module 1 content and description
+- Improved video path handling
+- Enhanced quiz system with better feedback
+- Optimized production deployment
+- Added comprehensive documentation
 
 ## Development Guidelines
 
