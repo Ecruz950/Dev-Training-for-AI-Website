@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1>My Profile</h1>
+    
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-image">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="profile-info">
+                <h2>{{ current_user.username }}</h2>
+                <p>{{ current_user.email }}</p>
+                <div class="user-badges">
+                    {% if current_user.is_admin %}
+                        <span class="badge badge-admin">Admin</span>
+                    {% endif %}
+                    {% if current_user.is_group_admin %}
+                        <span class="badge badge-group-admin">Group Admin</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-sections">
+            <div class="profile-section">
+                <h3>Account Information</h3>
+                <div class="info-row">
+                    <span class="info-label">Member since:</span>
+                    <span class="info-value">{{ current_user.created_at.strftime('%B %d, %Y') }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">{{ current_user.email }}</span>
+                </div>
+                {% if current_user.is_group_admin %}
+                <div class="info-row">
+                    <span class="info-label">Groups managed:</span>
+                    <span class="info-value">{{ current_user.administered_groups|length }}</span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="profile-section">
+                <h3>Learning Progress</h3>
+                <a href="{{ url_for('modules.index') }}" class="btn btn-primary">View Available Modules</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

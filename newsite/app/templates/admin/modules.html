@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Modules{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1>Module Management</h1>
+    <p>Manage all training modules in the system.</p>
+    
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Order</th>
+                    <th>Media</th>
+                    <th>Quiz Status</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for module in modules %}
+                <tr>
+                    <td>{{ module.id }}</td>
+                    <td>{{ module.title }}</td>
+                    <td>{{ module.description|truncate(50) }}</td>
+                    <td>{{ module.order }}</td>
+                    <td>
+                        {% if module.video_path %}
+                            <span class="badge badge-success">Video</span>
+                        {% else %}
+                            <span class="badge badge-danger">No Video</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set quiz = quizzes|selectattr('module_id', 'equalto', module.id)|first %}
+                        {% if quiz %}
+                            <span class="badge badge-success">Available</span>
+                        {% else %}
+                            <span class="badge badge-danger">Not Available</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ module.created_at.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        <a href="{{ url_for('modules.video', module_id=module.id) }}" class="btn btn-sm btn-secondary">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="actions">
+        <a href="{{ url_for('admin.index') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %} 

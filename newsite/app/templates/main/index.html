@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="welcome-container">
+    <h1>Welcome to Dev Training</h1>
+    <p>Your gateway to learning and mastering software development and AI skills. Join our platform to access training modules, quizzes, and track your progress.</p>
+    
+    {% if not current_user.is_authenticated %}
+    <div class="welcome-actions">
+        <a href="{{ url_for('auth.register') }}" class="welcome-btn">Register</a>
+        <a href="{{ url_for('auth.login') }}" class="welcome-btn outline">Login</a>
+    </div>
+    {% else %}
+    <div class="welcome-actions">
+        <a href="{{ url_for('main.profile') }}" class="welcome-btn">View Profile</a>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin.index') }}" class="welcome-btn outline">Admin Dashboard</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

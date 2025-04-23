@@ -1,0 +1,160 @@
+{
+  "title": "Module 1 Quiz",
+  "module_id": 1,
+  "passing_score": 100,
+  "questions": [
+    {
+      "id": 1,
+      "text": "What are LLMs?",
+      "options": [
+        "Long Language Models",
+        "Large Language Models",
+        "Long Language Mappings",
+        "None of the above"
+      ],
+      "correct_answer": 1,
+      "feedback": {
+        "correct": "Correct, LLM explicitly stands for this phrase.",
+        "incorrect": "Incorrect, LLM stands for Large Language Models."
+      }
+    },
+    {
+      "id": 2,
+      "text": "T/F: LLMs can distinguish facts from fiction.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correct_answer": 1,
+      "feedback": {
+        "correct": "Correct, they can produce confident but incorrect statements.",
+        "incorrect": "Incorrect, LLMs may struggle with fact-checking."
+      }
+    },
+    {
+      "id": 3,
+      "text": "How are the capabilities of a neural network restricted?",
+      "options": [
+        "There are no restrictions.",
+        "The quality of the training data.",
+        "The amount of training data.",
+        "The quality of the training data and amount of training data."
+      ],
+      "correct_answer": 3,
+      "feedback": {
+        "correct": "Correct, both factors limit capabilities.",
+        "incorrect": "Incorrect, data quality and quantity both matter."
+      }
+    },
+    {
+      "id": 4,
+      "text": "T/F: LLMs can generate code with security vulnerabilities.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correct_answer": 0,
+      "feedback": {
+        "correct": "Correct, generated code can contain flaws.",
+        "incorrect": "Incorrect, vulnerabilities are possible."
+      }
+    },
+    {
+      "id": 5,
+      "text": "T/F: We currently have artificial general intelligence.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correct_answer": 1,
+      "feedback": {
+        "correct": "Correct, we only have narrower AI.",
+        "incorrect": "Incorrect, AGI does not yet exist."
+      }
+    },
+    {
+      "id": 6,
+      "text": "T/F: We currently have artificial narrow intelligence.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correct_answer": 0,
+      "feedback": {
+        "correct": "Correct, present AI is specialized for specific tasks.",
+        "incorrect": "Incorrect, narrow AI does exist today."
+      }
+    },
+    {
+      "id": 7,
+      "text": "T/F: Neural Networks can adapt and accurately fulfill requests outside of its training data.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correct_answer": 1,
+      "feedback": {
+        "correct": "Correct, they cannot reliably handle completely novel tasks without errors.",
+        "incorrect": "Incorrect, they rely heavily on their training data."
+      }
+    },
+    {
+      "id": 8,
+      "text": "What may be an example of bias in a neural network's training data?",
+      "options": [
+        "Only hiring male candidates because those were the successful candidates in the training data.",
+        "Higher false positive matching for faces of racial minorities.",
+        "An image sorting algorithm assuming a banana is a bus.",
+        "All of the above."
+      ],
+      "correct_answer": 3,
+      "feedback": {
+        "correct": "Correct, all are examples of bias.",
+        "incorrect": "Incorrect, this is not the only example of bias."
+      }
+    },
+    {
+      "id": 9,
+      "text": "Whose responsibility is it to ensure that code provided by LLMs is safe when it is incorporated into company software?",
+      "options": [
+        "Those who made the AI.",
+        "The AI.",
+        "The software developer using LLMs.",
+        "Thomas Edison."
+      ],
+      "correct_answer": 2,
+      "feedback": {
+        "correct": "Correct, it's up to developers to vet the code.",
+        "incorrect": "Incorrect, developers must take responsibility for AI-generated code."
+      }
+    },
+    {
+      "id": 10,
+      "text": "What everyday software does LLMs resemble most?",
+      "options": [
+        "Spell Check",
+        "Search Engines",
+        "Operating Systems",
+        "Calculator Applications"
+      ],
+      "correct_answer": 0,
+      "feedback": {
+        "correct": "Correct, they suggest text or responses based on learned patterns.",
+        "incorrect": "Incorrect, LLMs most closely resemble predictive text systems."
+      }
+    },
+    {
+      "id": 11,
+      "text": "Should you use LLMs as a search engine?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "correct_answer": 1,
+      "feedback": {
+        "correct": "Correct, they are not designed to reliably replace search engines.",
+        "incorrect": "Incorrect, they can be inaccurate or outdated."
+      }
+    }
+  ]
+} 

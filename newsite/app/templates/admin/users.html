@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Users{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1>User Management</h1>
+    <p>Manage all users in the system.</p>
+    
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Module Progress</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.is_admin %}
+                            <span class="badge badge-success">Admin</span>
+                        {% endif %}
+                        {% if user.is_group_admin %}
+                            <span class="badge badge-success">Group Admin</span>
+                        {% endif %}
+                        {% if not user.is_admin and not user.is_group_admin %}
+                            <span class="badge badge-secondary">User</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set ns = namespace(completed_count=0) %}
+                        
+                        <div class="module-progress-indicator">
+                            {% for module in modules %}
+                                {% set user_progress = module.progress|selectattr('user_id', 'equalto', user.id)|first %}
+                                {% if user_progress and user_progress.quiz_completed %}
+                                    <span class="module-progress-mini completed">M{{ module.id }}: Complete</span>
+                                    {% set ns.completed_count = ns.completed_count + 1 %}
+                                {% else %}
+                                    <span class="module-progress-mini incomplete">M{{ module.id }}: Incomplete</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="user-progress-summary">
+                            <div class="progress-stat">
+                                <span class="progress-number">{{ ns.completed_count }}/{{ modules|length }}</span>
+                                <span class="progress-label">modules completed</span>
+                            </div>
+                            
+                            {% set percentage = (ns.completed_count / modules|length * 100)|round|int if modules|length > 0 else 0 %}
+                            <div class="progress-stat">
+                                <span class="progress-percentage">{{ percentage }}%</span>
+                                <span class="progress-label">complete</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-secondary">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="actions">
+        <a href="{{ url_for('admin.index') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %} 

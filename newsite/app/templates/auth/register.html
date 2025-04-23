@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Create Account</h2>
+    <form method="POST" class="auth-form">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.username.label }}
+            {{ form.username(class="form-control", placeholder="Choose a username") }}
+            {% for error in form.username.errors %}
+                <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.email.label }}
+            {{ form.email(class="form-control", placeholder="Enter your email") }}
+            {% for error in form.email.errors %}
+                <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class="form-control", placeholder="Choose a password") }}
+            {% for error in form.password.errors %}
+                <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.password2.label }}
+            {{ form.password2(class="form-control", placeholder="Confirm your password") }}
+            {% for error in form.password2.errors %}
+                <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="is_group_admin" id="is_group_admin">
+                Register as Group Admin
+            </label>
+        </div>
+        
+        <div id="group_name_field" class="form-group" style="display: none;">
+            <label for="group_name">Group Name</label>
+            <input type="text" id="group_name" name="group_name">
+        </div>
+        
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+    
+    <div class="auth-links">
+        Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>
+    </div>
+</div>
+
+<script>
+document.getElementById('is_group_admin').addEventListener('change', function() {
+    const groupNameField = document.getElementById('group_name_field');
+    const groupNameInput = document.getElementById('group_name');
+    
+    if (this.checked) {
+        groupNameField.style.display = 'block';
+        groupNameInput.required = true;
+    } else {
+        groupNameField.style.display = 'none';
+        groupNameInput.required = false;
+    }
+});
+</script>
+{% endblock %} 

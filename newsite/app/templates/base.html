@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Dev Training</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-placeholder">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h3>Dev Training</h3>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li class="{{ 'active' if request.endpoint == 'main.index' }}">
+                    <i class="fas fa-home"></i>
+                    <a href="{{ url_for('main.index') }}">Home</a>
+                </li>
+                {% if current_user.is_authenticated %}
+                    <li class="{{ 'active' if request.endpoint == 'main.profile' }}">
+                        <i class="fas fa-user"></i>
+                        <a href="{{ url_for('main.profile') }}">Profile</a>
+                    </li>
+                    <li class="{{ 'active' if request.endpoint == 'auth.notifications' }}">
+                        <i class="fas fa-bell"></i>
+                        <a href="{{ url_for('auth.notifications') }}">
+                            Notifications
+                            {% if current_user.notifications|selectattr('read', 'equalto', false)|list|length > 0 %}
+                                <span class="notification-badge">{{ current_user.notifications|selectattr('read', 'equalto', false)|list|length }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                    <li class="{{ 'active' if request.endpoint.startswith('modules.') }}">
+                        <i class="fas fa-book"></i>
+                        <a href="{{ url_for('modules.index') }}">Modules</a>
+                    </li>
+                    {% if current_user.is_group_admin or current_user.is_admin %}
+                        <li class="{{ 'active' if request.endpoint == 'main.group_management' }}">
+                            <i class="fas fa-users"></i>
+                            <a href="{{ url_for('main.group_management') }}">Groups</a>
+                        </li>
+                    {% endif %}
+                    {% if current_user.is_admin %}
+                        <li class="{{ 'active' if request.endpoint.startswith('admin.') }}">
+                            <i class="fas fa-cog"></i>
+                            <a href="{{ url_for('admin.index') }}">Admin</a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <i class="fas fa-sign-out-alt"></i>
+                        <a href="{{ url_for('auth.logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="{{ 'active' if request.endpoint == 'auth.login' }}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <a href="{{ url_for('auth.login') }}">Login</a>
+                    </li>
+                    <li class="{{ 'active' if request.endpoint == 'auth.register' }}">
+                        <i class="fas fa-user-plus"></i>
+                        <a href="{{ url_for('auth.register') }}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const flashMessages = document.querySelectorAll('.alert');
+                flashMessages.forEach(function(message) {
+                    message.style.opacity = '0';
+                    setTimeout(function() {
+                        message.remove();
+                    }, 300);
+                });
+            }, 5000);
+            
+            // Add sidebar hover effect for main content
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            
+            sidebar.addEventListener('mouseenter', function() {
+                mainContent.style.marginLeft = '260px';
+            });
+            
+            sidebar.addEventListener('mouseleave', function() {
+                mainContent.style.marginLeft = '65px';
+            });
+        });
+    </script>
+</body>
+</html> 

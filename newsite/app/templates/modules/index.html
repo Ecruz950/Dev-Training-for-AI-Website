@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Modules{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Training Modules</h1>
+    <p>Welcome to the training modules section. Here you'll find all available training content.</p>
+    
+    <div class="modules-list">
+        {% if modules %}
+            {% for module in modules %}
+                <div class="module-card">
+                    <h2>{{ module.title }}</h2>
+                    <p>{{ module.description }}</p>
+                    <div class="module-progress">
+                        {% set progress = module.progress|selectattr('user_id', 'equalto', current_user.id)|first %}
+                        {% if progress %}
+                            {% if progress.video_completed %}
+                                <span class="badge badge-success">Video Completed</span>
+                            {% else %}
+                                <span class="badge badge-danger">Video Incomplete</span>
+                            {% endif %}
+                            {% if progress.quiz_completed %}
+                                <span class="badge badge-success">Quiz Completed</span>
+                            {% else %}
+                                <span class="badge badge-danger">Quiz Incomplete</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="badge badge-danger">Video Incomplete</span>
+                            <span class="badge badge-danger">Quiz Incomplete</span>
+                        {% endif %}
+                    </div>
+                    <div class="module-actions">
+                        <a href="{{ url_for('modules.video', module_id=module.id) }}" class="btn btn-primary">Watch Video</a>
+                        {% if progress and progress.video_completed %}
+                            <a href="{{ url_for('modules.quiz', module_id=module.id) }}" class="btn btn-secondary">Take Quiz</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No modules available yet. Please check back later.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

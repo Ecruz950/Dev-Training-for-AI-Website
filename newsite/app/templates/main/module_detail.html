@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}{{ module.title }}{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <div class="module-header">
+        <h1>{{ module.title }}</h1>
+        <p class="module-description">{{ module.description }}</p>
+    </div>
+    
+    <div class="module-content">
+        <div class="content-section">
+            <h2>Module Content</h2>
+            {% if module.video_url %}
+                <div class="video-container">
+                    <iframe src="{{ module.video_url }}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            {% else %}
+                <div class="placeholder-content">
+                    <i class="fas fa-video"></i>
+                    <p>Video content coming soon!</p>
+                </div>
+            {% endif %}
+            
+            <div class="module-text">
+                <h3>Learning Objectives</h3>
+                <ul>
+                    <li>Understand the basic concepts of programming</li>
+                    <li>Learn about variables, data types, and control structures</li>
+                    <li>Practice writing simple programs</li>
+                </ul>
+                
+                <h3>Key Concepts</h3>
+                <p>This module covers fundamental programming concepts that form the foundation of software development. We'll explore how computers process instructions, store data, and execute programs.</p>
+                
+                <div class="content-navigation">
+                    <a href="{{ url_for('main.modules') }}" class="btn btn-secondary">Back to Modules</a>
+                    {% if module.quiz_url %}
+                        <a href="{{ module.quiz_url }}" class="btn btn-primary">Take Quiz</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
